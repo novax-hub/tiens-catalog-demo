@@ -1,0 +1,112 @@
+@import "tailwindcss";
+
+:root {
+  /* Brand palette */
+  --color-primary-900: #0b5a3a;
+  --color-primary-700: #137d52;
+  --color-primary-500: #1fa36a;
+  --color-primary-300: #6fcf97;
+  --color-primary-100: #e6f4ee;
+
+  --color-secondary-500: #f4a261;
+  --color-secondary-300: #f8cfa8;
+  --color-secondary-100: #fef4ec;
+
+  --color-neutral-900: #1a1a1a;
+  --color-neutral-700: #4f4f4f;
+  --color-neutral-500: #828282;
+  --color-neutral-300: #e0e0e0;
+  --color-neutral-100: #f9f9f9;
+  --color-white: #ffffff;
+
+  --color-success: #27ae60;
+  --color-warning: #f2c94c;
+  --color-error: #eb5757;
+  --color-info: #2f80ed;
+
+  /* Typography */
+  --font-sans-base: var(--font-inter), "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-size-h1: 48px;
+  --font-size-h2: 36px;
+  --font-size-h3: 24px;
+  --font-size-body: 16px;
+  --font-size-small: 14px;
+  --line-height-body: 1.6;
+  --line-height-heading: 1.2;
+
+  /* 8px spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+  --space-6: 48px;
+  --space-7: 64px;
+
+  --site-max-width: 1200px;
+}
+
+@theme inline {
+  --color-background: var(--color-neutral-100);
+  --color-foreground: var(--color-neutral-900);
+  --font-sans: var(--font-sans-base);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  background: var(--color-neutral-100);
+  color: var(--color-neutral-900);
+  font-family: var(--font-sans-base);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.site-container {
+  width: min(100% - (var(--space-4) * 2), var(--site-max-width));
+  margin-inline: auto;
+}
+
+.site-main {
+  flex: 1;
+  padding-block: var(--space-6);
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 8px;
+  background: var(--color-primary-700);
+  color: var(--color-white);
+  font-weight: 600;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-900);
+}
+
+.card-base {
+  background: var(--color-white);
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}

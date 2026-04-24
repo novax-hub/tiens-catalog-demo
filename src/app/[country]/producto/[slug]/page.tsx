@@ -1,0 +1,178 @@
+import { notFound } from "next/navigation";
+import catalog from "@/mock-data/catalog.fase1.mock.json";
+
+type ProductPageProps = {
+  params: Promise<{ country: string; slug: string }>;
+};
+
+export async function generateStaticParams() {
+  return catalog.products.flatMap((product) =>
+    ["pe", "ec", "bo", "co", "mx"].map((country) => ({
+      country,
+      slug: product.slug,
+    }))
+  );
+}
+
+const getYoutubeEmbedUrl = (url: string) => {
+  const regExp = /(?:youtu\.be\/|youtube\.com\/watch\?v=)([^&]+)/;
+  const match = url.match(regExp);
+  return match ? `https://www.youtube.com/embed/${match[1]}` : url;
+};
+
+export default async function ProductPage({ params }: ProductPageProps) {
+  const { country, slug } = await params;
+  const product = catalog.products.find((p) => p.slug === slug);
+
+  if (!product) {
+    notFound();
+  }
+
+  const countryData = product.countries.pe;
+  const translations = countryData.translations.es;
+
+  return (
+    <div className="site-container">
+      <div style={{ marginBottom: "var(--space-6)" }}>
+        <a href={`/${country}`} style={{ color: "var(--color-primary-700)", textDecoration: "underline" }}>
+          ← Volver al catálogo
+        </a>
+      </div>
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: "var(--space-6)",
+        }}
+      >
+        {/* Images */}
+        <div>
+          {countryData.heroImage && (
+            <img
+              src={`/${countryData.heroImage}`}
+              alt={translations.name}
+              style={{ width: "100%", borderRadius: 12, marginBottom: "var(--space-4)" }}
+            />
+          )}
+          {countryData.images.length > 1 && (
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "var(--space-2)" }}>
+              {countryData.images.map((img, idx) => (
+                <img
+                  key={idx}
+                  src={`/${img}`}
+                  alt={`${translations.name} ${idx}`}
+                  style={{ width: "100%", borderRadius: 8, objectFit: "cover", height: 100 }}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Content */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-4)" }}>
+          <h1 style={{ fontSize: "var(--font-size-h2)", margin: 0 }}>{translations.name}</h1>
+
+          {countryData.price.amount && (
+            <div style={{ fontSize: "var(--font-size-h2)", fontWeight: 700, color: "var(--color-primary-700)" }}>
+              {countryData.price.currency} {countryData.price.amount.toFixed(2)}
+            </div>
+          )}
+
+          {translations.intro && (
+            <p style={{ fontSize: "var(--font-size-body)", color: "var(--color-neutral-700)" }}>
+              {translations.intro}
+            </p>
+          )}
+
+          {translations.benefits && translations.benefits.length > 0 && (
+            <div>
+              <h3 style={{ fontSize: "var(--font-size-h3)" }}>Beneficios</h3>
+              <ul style={{ margin: 0, paddingLeft: "var(--space-4)", color: "var(--color-neutral-700)" }}>
+                {translations.benefits.map((b, i) => (
+                  <li key={i}>{b}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {translations.usage && translations.usage.length > 0 && (
+            <div>
+              <h3 style={{ fontSize: "var(--font-size-h3)" }}>Uso</h3>
+              <ul style={{ margin: 0, paddingLeft: "var(--space-4)", color: "var(--color-neutral-700)" }}>
+                {translations.usage.map((u, i) => (
+                  <li key={i}>{u}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {translations.videoUrl && (
+            <div>
+              <h3 style={{ fontSize: "var(--font-size-h3)" }}>Video</h3>
+              <iframe
+                width="100%"
+                height="300"
+                src={getYoutubeEmbedUrl(translations.videoUrl)}
+                title={translations.name}
+                style={{ borderRadius: 8 }}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          )}
+
+          <button className="btn-primary" style={{ marginTop: "auto" }}>
+            {translations.ctaLabel}
+          </button>
+        </div>
+      </div>
+
+      {/* Full content below */}
+      <div style={{ marginTop: "var(--space-7)" }}>
+        {translations.longDescription && (
+          <div style={{ marginBottom: "var(--space-6)" }}>
+            <h2 style={{ fontSize: "var(--font-size-h2)" }}>Descripción</h2>
+            <p style={{ color: "var(--color-neutral-700)" }}>{translations.longDescription}</p>
+          </div>
+        )}
+
+        {translations.applications && translations.applications.length > 0 && (
+          <div style={{ marginBottom: "var(--space-6)" }}>
+            <h2 style={{ fontSize: "var(--font-size-h2)" }}>Aplicaciones</h2>
+            <ul style={{ color: "var(--color-neutral-700)" }}>
+              {translations.applications.map((a, i) => (
+                <li key={i}>{a}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {translations.restrictions && translations.restrictions.length > 0 && (
+          <div style={{ marginBottom: "var(--space-6)" }}>
+            <h2 style={{ fontSize: "var(--font-size-h2)" }}>Restricciones</h2>
+            <ul style={{ color: "var(--color-neutral-700)" }}>
+              {translations.restrictions.map((r, i) => (
+                <li key={i}>{r}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {Object.keys(translations.technicalInfo).length > 0 && (
+          <div>
+            <h2 style={{ fontSize: "var(--font-size-h2)" }}>Información técnica</h2>
+            <dl style={{ color: "var(--color-neutral-700)" }}>
+              {Object.entries(translations.technicalInfo).map(([key, value]) => (
+                <div key={key} style={{ marginBottom: "var(--space-2)" }}>
+                  <dt style={{ fontWeight: 600 }}>{key}:</dt>
+                  <dd style={{ margin: "0 0 0 var(--space-2)" }}>{value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

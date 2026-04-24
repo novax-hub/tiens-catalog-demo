@@ -1,0 +1,827 @@
+{
+    "defaultCountry":  "pe",
+    "availableCountries":  [
+                               "pe",
+                               "ec",
+                               "bo",
+                               "co",
+                               "mx"
+                           ],
+    "availableLanguages":  [
+                               "es"
+                           ],
+    "products":  [
+                     {
+                         "id":  "0d841ba8-d568-4edf-b670-73aec658f960",
+                         "sku":  "F17",
+                         "slug":  "set-toallas-higienicas-airiz",
+                         "isActive":  true,
+                         "countries":  {
+                                           "pe":  {
+                                                      "isActive":  true,
+                                                      "ecommerceExternalId":  null,
+                                                      "ecommerceUrl":  null,
+                                                      "price":  {
+                                                                    "amount":  74.05,
+                                                                    "currency":  "PEN"
+                                                                },
+                                                      "categoryTags":  [
+
+                                                                       ],
+                                                      "heroImage":  "product-assets/F17 - SET DE TOALLAS AIRIZ TIENDA VIRTUAL/F17 - SET DE TOALLAS AIRIZ 1.png",
+                                                      "images":  [
+                                                                     "product-assets/F17 - SET DE TOALLAS AIRIZ TIENDA VIRTUAL/F17 - SET DE TOALLAS AIRIZ 1.png",
+                                                                     "product-assets/F17 - SET DE TOALLAS AIRIZ TIENDA VIRTUAL/F17 - SET DE TOALLAS AIRIZ 2.png",
+                                                                     "product-assets/F17 - SET DE TOALLAS AIRIZ TIENDA VIRTUAL/F17 - SET DE TOALLAS AIRIZ 3.png",
+                                                                     "product-assets/F17 - SET DE TOALLAS AIRIZ TIENDA VIRTUAL/F17 - SET DE TOALLAS AIRIZ 4.png"
+                                                                 ],
+                                                      "translations":  {
+                                                                           "es":  {
+                                                                                      "name":  "Set Toallas Higiénicas Airiz",
+                                                                                      "shortDescription":  "Set de toallas higiénicas Airiz con algodón suave, oxígeno activo e iones negativos para una protección diaria cómoda y segura.",
+                                                                                      "intro":  "El cuidado íntimo diario requiere productos que brinden seguridad, comodidad y confianza en cada momento. El Set de Toallas Higiénicas Airiz está diseñado con algodón suave y tecnología de oxígeno activo e ion negativo, ofreciendo una alternativa pensada para acompañar la rutina femenina con mayor bienestar.\n\nSu composición busca mantener un equilibrio adecuado, ayudando a proteger frente a agentes externos, mientras brinda una experiencia de uso cómoda tanto de día como de noche.",
+                                                                                      "longDescription":  "Las toallas higiénicas Airiz combinan algodón suave con tecnología de oxígeno activo e iones negativos, lo que contribuye a una mejor oxigenación y cuidado durante su uso.\n\nEl set incluye diferentes presentaciones adaptadas a cada momento del día, facilitando una protección continua y adecuada.",
+                                                                                      "benefits":  [
+                                                                                                       "Buena absorción de líquidos",
+                                                                                                       "Diseño ultra delgado y cómodo",
+                                                                                                       "Permite una mejor permeabilidad y ventilación",
+                                                                                                       "Contribuye a mantener una sensación de frescura",
+                                                                                                       "Tecnología con oxígeno activo e ion negativo",
+                                                                                                       "Uso práctico según el momento del día"
+                                                                                                   ],
+                                                                                      "applications":  [
+                                                                                                           "Durante el día (toallas diurnas)",
+                                                                                                           "Durante la noche (mayor protección)",
+                                                                                                           "Uso diario (protectores)",
+                                                                                                           "Rutina de higiene íntima"
+                                                                                                       ],
+                                                                                      "usage":  [
+                                                                                                    "Seleccionar el tipo de toalla según el momento (día, noche o protector diario)",
+                                                                                                    "Retirar el adhesivo y colocar sobre la ropa interior",
+                                                                                                    "Ajustar correctamente para mayor comodidad",
+                                                                                                    "Cambiar según el tiempo recomendado de uso"
+                                                                                                ],
+                                                                                      "restrictions":  [
+                                                                                                           "No exceder el tiempo recomendado de uso",
+                                                                                                           "Seguir las indicaciones de uso de cada componente",
+                                                                                                           "Suspender el uso ante cualquier reacción desfavorable",
+                                                                                                           "En caso de anomalía, consultar con un especialista"
+                                                                                                       ],
+                                                                                      "recommendations":  [
+                                                                                                              "Mujeres en etapa menstrual",
+                                                                                                              "Uso diario como protección adicional",
+                                                                                                              "Personas que buscan mayor comodidad y frescura",
+                                                                                                              "Diferentes momentos del ciclo (día y noche)"
+                                                                                                          ],
+                                                                                      "technicalInfo":  {
+                                                                                                            "tipo-de-producto":  "Toallas Higiénicas",
+                                                                                                            "marca":  "Airiz",
+                                                                                                            "material":  "Algodón suave",
+                                                                                                            "presentacion":  "Set de paquetes",
+                                                                                                            "contenido":  "3 paquetes de toallas de día 1 paquete de toallas de noche 2 paquetes de protectores diarios"
+                                                                                                        },
+                                                                                      "ctaLabel":  "Comprar ahora",
+                                                                                      "videoUrl":  "https://youtu.be/naBw8hFQTAk?si=NLKK6t5ov_ng5nyN",
+                                                                                      "seo":  {
+                                                                                                  "title":  "Set Toallas Higiénicas Airiz | Tiens Peru",
+                                                                                                  "description":  "Set de toallas higiénicas Airiz con algodón suave, oxígeno activo e iones negativos para una protección diaria cómoda y segura.",
+                                                                                                  "ogImage":  "product-assets/F17 - SET DE TOALLAS AIRIZ TIENDA VIRTUAL/F17 - SET DE TOALLAS AIRIZ 1.png"
+                                                                                              }
+                                                                                  }
+                                                                       }
+                                                  }
+                                       }
+                     },
+                     {
+                         "id":  "179f79a7-e00c-4bd8-b104-f0a2ad79d8cc",
+                         "sku":  "A07",
+                         "slug":  "capsula-de-chitosa",
+                         "isActive":  true,
+                         "countries":  {
+                                           "pe":  {
+                                                      "isActive":  true,
+                                                      "ecommerceExternalId":  null,
+                                                      "ecommerceUrl":  null,
+                                                      "price":  {
+                                                                    "amount":  177.84,
+                                                                    "currency":  "PEN"
+                                                                },
+                                                      "categoryTags":  [
+
+                                                                       ],
+                                                      "heroImage":  "product-assets/A07 - CHITOSA TIENDA VIRTUAL/A07 - CHITOSA 1.png",
+                                                      "images":  [
+                                                                     "product-assets/A07 - CHITOSA TIENDA VIRTUAL/A07 - CHITOSA 1.png",
+                                                                     "product-assets/A07 - CHITOSA TIENDA VIRTUAL/A07 - CHITOSA 2.png",
+                                                                     "product-assets/A07 - CHITOSA TIENDA VIRTUAL/A07 - CHITOSA 3.png"
+                                                                 ],
+                                                      "translations":  {
+                                                                           "es":  {
+                                                                                      "name":  "Capsula de Chitosa",
+                                                                                      "shortDescription":  "Cápsulas de quitosano que apoyan el control de grasas y azúcares, contribuyendo a una rutina de bienestar y manejo de peso.",
+                                                                                      "intro":  "En la búsqueda de una alimentación equilibrada y hábitos saludables, muchas personas buscan aliados prácticos que complementen su rutina diaria. La Cápsula de Chitosa se presenta como una alternativa orientada al bienestar digestivo y al control de peso.\n\nGracias a su composición a base de quitosano, puede integrarse dentro de programas nutricionales y estilos de vida enfocados en mejorar el equilibrio del organismo.",
+                                                                                      "longDescription":  "La Cápsula de Chitosa es un suplemento elaborado a base de quitosano, un componente derivado de la quitina presente en los caparazones de crustáceos. Gracias a su alta pureza y grado de desacetilación, está diseñado para complementar rutinas orientadas al bienestar digestivo, control de peso y equilibrio metabólico.\n\nEl quitosano es reconocido por su capacidad de interactuar con grasas dentro del tracto digestivo, contribuyendo a reducir su absorción y apoyando procesos de manejo de peso. Además, puede colaborar en la eliminación de toxinas, promoviendo una sensación general de bienestar.\n\nSu uso constante, acompañado de una alimentación saludable y actividad física, puede convertirse en un excelente complemento para quienes buscan mejorar sus hábitos diarios.",
+                                                                                      "benefits":  [
+                                                                                                       "Contribuye a reducir la absorción de grasas",
+                                                                                                       "Apoya rutinas orientadas al control de peso",
+                                                                                                       "Favorece el equilibrio del metabolismo de azúcares",
+                                                                                                       "Puede apoyar la circulación",
+                                                                                                       "Complementa procesos de limpieza digestiva",
+                                                                                                       "Ayuda a mantener hábitos saludables de bienestar"
+                                                                                                   ],
+                                                                                      "applications":  [
+                                                                                                           "Dietas de reducción de peso",
+                                                                                                           "Rutinas de control alimenticio",
+                                                                                                           "Programas de bienestar digestivo",
+                                                                                                           "Estilos de vida saludables"
+                                                                                                       ],
+                                                                                      "usage":  [
+                                                                                                    "Tomar de 1 a 3 cápsulas",
+                                                                                                    "Consumir entre 30 minutos y 1 hora antes de las comidas",
+                                                                                                    "Acompañar con agua tibia",
+                                                                                                    "Mantener una adecuada hidratación diaria"
+                                                                                                ],
+                                                                                      "restrictions":  [
+                                                                                                           "No consumir en caso de alergia a mariscos",
+                                                                                                           "Puede causar estreñimiento si no se bebe suficiente agua",
+                                                                                                           "Mantener un intervalo mínimo de 2 horas con otros suplementos",
+                                                                                                           "No recomendado para niños, lactantes o embarazadas con mala absorción intestinal"
+                                                                                                       ],
+                                                                                      "recommendations":  [
+                                                                                                              "Adultos que buscan complementar su control de peso",
+                                                                                                              "Personas enfocadas en bienestar digestivo",
+                                                                                                              "Usuarios con hábitos de alimentación equilibrada",
+                                                                                                              "Combinable con Té Tianshi y Té Milenario"
+                                                                                                          ],
+                                                                                      "technicalInfo":  {
+                                                                                                            "tipo-de-producto":  "Suplemento alimenticio",
+                                                                                                            "ingrediente-principal":  "Quitosano",
+                                                                                                            "presentacion":  "100 cápsulas x 0.15 g"
+                                                                                                        },
+                                                                                      "ctaLabel":  "Comprar ahora",
+                                                                                      "videoUrl":  "https://youtu.be/T30UzfSx1RY?si=sxzAZ02HgVtL8bku",
+                                                                                      "seo":  {
+                                                                                                  "title":  "Capsula de Chitosa | Tiens Peru",
+                                                                                                  "description":  "Cápsulas de quitosano que apoyan el control de grasas y azúcares, contribuyendo a una rutina de bienestar y manejo de peso.",
+                                                                                                  "ogImage":  "product-assets/A07 - CHITOSA TIENDA VIRTUAL/A07 - CHITOSA 1.png"
+                                                                                              }
+                                                                                  }
+                                                                       }
+                                                  }
+                                       }
+                     },
+                     {
+                         "id":  "7c24f05e-e9ab-4ed5-898e-19dd2b20f665",
+                         "sku":  "A05",
+                         "slug":  "te-antilipido-de-tianshi",
+                         "isActive":  true,
+                         "countries":  {
+                                           "pe":  {
+                                                      "isActive":  true,
+                                                      "ecommerceExternalId":  null,
+                                                      "ecommerceUrl":  null,
+                                                      "price":  {
+                                                                    "amount":  82.47,
+                                                                    "currency":  "PEN"
+                                                                },
+                                                      "categoryTags":  [
+
+                                                                       ],
+                                                      "heroImage":  "product-assets/A05 - TE TIANSHI TIENDA VIRTUAL/A05 - TE TIANSHI 1.png",
+                                                      "images":  [
+                                                                     "product-assets/A05 - TE TIANSHI TIENDA VIRTUAL/A05 - TE TIANSHI 1.png",
+                                                                     "product-assets/A05 - TE TIANSHI TIENDA VIRTUAL/A05 - TE TIANSHI 2.png",
+                                                                     "product-assets/A05 - TE TIANSHI TIENDA VIRTUAL/A05 - TE TIANSHI 3.png",
+                                                                     "product-assets/A05 - TE TIANSHI TIENDA VIRTUAL/A05 - TE TIANSHI 4.png"
+                                                                 ],
+                                                      "translations":  {
+                                                                           "es":  {
+                                                                                      "name":  "Te Antilípido de Tianshi",
+                                                                                      "shortDescription":  "Té herbal detox que ayuda a limpiar el organismo, apoyar la digestión y complementar rutinas de bienestar diario.",
+                                                                                      "intro":  "El ritmo de vida actual, la alimentación desordenada y el estrés diario pueden afectar el equilibrio del organismo. Muchas personas buscan alternativas naturales que acompañen procesos de limpieza interna y bienestar general.\n\nEl Té Antilípido de Tianshi combina hierbas tradicionales utilizadas por generaciones, creando una bebida pensada para complementar rutinas saludables y apoyar el funcionamiento natural del cuerpo.",
+                                                                                      "longDescription":  "El Té Tianshi es una infusión elaborada a base de una selección de cinco hierbas tradicionales: ginostema, hoja de loto, té verde, flor buddleja y ruibarbo. Esta combinación ha sido desarrollada para acompañar procesos de limpieza interna, digestión y equilibrio general del organismo.\n\nSu fórmula reúne ingredientes conocidos por sus propiedades naturales, ayudando al cuerpo a optimizar la eliminación de toxinas, apoyar la regulación digestiva y complementar hábitos orientados al bienestar integral.\n\nConsumido dentro de una rutina saludable, puede convertirse en una excelente alternativa para quienes desean sentirse más ligeros, mejorar sus hábitos diarios y apoyar su bienestar general.",
+                                                                                      "benefits":  [
+                                                                                                       "Ayuda a procesos naturales de limpieza interna",
+                                                                                                       "Complementa rutinas detox y de bienestar",
+                                                                                                       "Apoya la digestión y regulación intestinal",
+                                                                                                       "Contribuye al equilibrio del metabolismo de grasas",
+                                                                                                       "Aporta antioxidantes naturales",
+                                                                                                       "Favorece hábitos saludables diarios"
+                                                                                                   ],
+                                                                                      "applications":  [
+                                                                                                           "Dietas de reducción de peso",
+                                                                                                           "Rutinas detox naturales",
+                                                                                                           "Programas de bienestar digestivo",
+                                                                                                           "Estilos de vida saludables"
+                                                                                                       ],
+                                                                                      "usage":  [
+                                                                                                    "Colocar 1 sobre en una taza con agua caliente",
+                                                                                                    "Dejar reposar durante 10 minutos",
+                                                                                                    "Consumir tibio o caliente",
+                                                                                                    "Tomar de 1 a 2 sobres al día según preferencia"
+                                                                                                ],
+                                                                                      "restrictions":  [
+                                                                                                           "Personas sensibles a sus componentes podrían presentar reacciones alérgicas",
+                                                                                                           "En caso de embarazo o lactancia, consultar con un especialista",
+                                                                                                           "Recomendado para mayores de 18 años",
+                                                                                                           "Conservar en lugar fresco y seco entre 15°C y 25°C"
+                                                                                                       ],
+                                                                                      "recommendations":  [
+                                                                                                              "Adultos que buscan una bebida detox natural",
+                                                                                                              "Personas enfocadas en bienestar digestivo",
+                                                                                                              "Usuarios con hábitos saludables",
+                                                                                                              "Combinable con suplementos Tianshi en cápsulas o tabletas"
+                                                                                                          ],
+                                                                                      "technicalInfo":  {
+                                                                                                            "tipo-de-producto":  "Infusión herbal funcional",
+                                                                                                            "marca":  "Tianshi",
+                                                                                                            "componentes-principales":  "Ginostema, hoja de loto, té verde, flor buddleja y ruibarbo",
+                                                                                                            "presentacion":  "Sobre filtrantes",
+                                                                                                            "contenido":  "40 bolsitas x 1.5g"
+                                                                                                        },
+                                                                                      "ctaLabel":  "Comprar ahora",
+                                                                                      "videoUrl":  "https://youtu.be/J057soUK0SM?si=DgMczB8rIK5WWq4H",
+                                                                                      "seo":  {
+                                                                                                  "title":  "Te Antilípido de Tianshi | Tiens Peru",
+                                                                                                  "description":  "Té herbal detox que ayuda a limpiar el organismo, apoyar la digestión y complementar rutinas de bienestar diario.",
+                                                                                                  "ogImage":  "product-assets/A05 - TE TIANSHI TIENDA VIRTUAL/A05 - TE TIANSHI 1.png"
+                                                                                              }
+                                                                                  }
+                                                                       }
+                                                  }
+                                       }
+                     },
+                     {
+                         "id":  "6fa066ed-104e-48c1-be63-5b484c67df7f",
+                         "sku":  "A39",
+                         "slug":  "te-reductor-de-peso",
+                         "isActive":  true,
+                         "countries":  {
+                                           "pe":  {
+                                                      "isActive":  true,
+                                                      "ecommerceExternalId":  null,
+                                                      "ecommerceUrl":  null,
+                                                      "price":  {
+                                                                    "amount":  82.47,
+                                                                    "currency":  "PEN"
+                                                                },
+                                                      "categoryTags":  [
+
+                                                                       ],
+                                                      "heroImage":  "product-assets/A39 - TE MILENARIO TIENDA VIRTUAL/A39 - TE MILENARIO 1.png",
+                                                      "images":  [
+                                                                     "product-assets/A39 - TE MILENARIO TIENDA VIRTUAL/A39 - TE MILENARIO 1.png",
+                                                                     "product-assets/A39 - TE MILENARIO TIENDA VIRTUAL/A39 - TE MILENARIO 2.png",
+                                                                     "product-assets/A39 - TE MILENARIO TIENDA VIRTUAL/A39 - TE MILENARIO 3.png",
+                                                                     "product-assets/A39 - TE MILENARIO TIENDA VIRTUAL/A39 - TE MILENARIO 4.png"
+                                                                 ],
+                                                      "translations":  {
+                                                                           "es":  {
+                                                                                      "name":  "Te Reductor de Peso",
+                                                                                      "shortDescription":  "Té herbal con 7 hierbas naturales que apoya el control de peso, la digestión y rutinas de bienestar diario.",
+                                                                                      "intro":  "Mantener un peso equilibrado y una buena digestión puede ser un desafío cuando el ritmo diario, el estrés y los hábitos alimenticios cambian constantemente. Por ello, muchas personas buscan alternativas naturales que acompañen sus objetivos de bienestar.\n\nEl Té Reductor de Peso, también conocido como Té Milenario, combina hierbas tradicionales utilizadas por generaciones para complementar rutinas saludables, apoyar el metabolismo y favorecer una sensación de ligereza.",
+                                                                                      "longDescription":  "El Té Reductor de Peso de Tianshi es una infusión elaborada con siete hierbas seleccionadas: hoja de loto, semilla de cassia, risoma de alisma, té oolong, té kuding, raíz de ruibarbo y cáscara de mandarina. Esta combinación reúne ingredientes conocidos por su uso tradicional en procesos digestivos, equilibrio metabólico y control de peso.\n\nSu fórmula está pensada para complementar estilos de vida saludables, apoyando la digestión, la eliminación natural de líquidos retenidos y el manejo de grasas y carbohidratos dentro de una rutina equilibrada.\n\nConsumido de manera constante junto con hábitos adecuados, puede ser un excelente aliado para quienes desean sentirse más ligeros y mejorar su bienestar diario.",
+                                                                                      "benefits":  [
+                                                                                                       "Contribuye al metabolismo natural del organismo",
+                                                                                                       "Apoya rutinas orientadas al control de peso",
+                                                                                                       "Favorece la digestión y el tránsito intestinal",
+                                                                                                       "Ayuda a la eliminación natural de líquidos retenidos",
+                                                                                                       "Aporta antioxidantes naturales",
+                                                                                                       "Complementa hábitos saludables diarios"
+                                                                                                   ],
+                                                                                      "applications":  [
+                                                                                                           "Programas de reducción de peso",
+                                                                                                           "Rutinas de bienestar digestivo",
+                                                                                                           "Planes de alimentación equilibrada",
+                                                                                                           "Estilos de vida activos"
+                                                                                                       ],
+                                                                                      "usage":  [
+                                                                                                    "Colocar 1 sobre en una taza con agua caliente",
+                                                                                                    "Dejar reposar durante 3 minutos",
+                                                                                                    "Consumir tibio o caliente",
+                                                                                                    "Tomar de 1 a 2 sobres al día según preferencia"
+                                                                                                ],
+                                                                                      "restrictions":  [
+                                                                                                           "Personas sensibles a sus componentes podrían presentar reacciones alérgicas",
+                                                                                                           "En caso de embarazo o lactancia, consultar con un especialista",
+                                                                                                           "Recomendado para mayores de 18 años",
+                                                                                                           "Conservar en lugar fresco y seco a temperatura ambiente"
+                                                                                                       ],
+                                                                                      "recommendations":  [
+                                                                                                              "Adultos que buscan complementar el control de peso",
+                                                                                                              "Personas enfocadas en bienestar digestivo",
+                                                                                                              "Usuarios con hábitos saludables",
+                                                                                                              "Combinable con suplementos Tianshi en cápsulas o tabletas"
+                                                                                                          ],
+                                                                                      "technicalInfo":  {
+                                                                                                            "tipo-de-producto":  "Infusión herbal funcional",
+                                                                                                            "marca":  "Tianshi",
+                                                                                                            "componentes-principales":  "Hoja de loto, semilla de cassia, alisma, té oolong, té kuding, ruibarbo y cáscara de mandarina",
+                                                                                                            "presentacion":  "Sobre filtrantes",
+                                                                                                            "contenido":  "40 bolsitas x 1.5g"
+                                                                                                        },
+                                                                                      "ctaLabel":  "Comprar ahora",
+                                                                                      "videoUrl":  "https://youtu.be/aJdiOGCGjW0?si=xk0Vpr13zV5_Gf5t",
+                                                                                      "seo":  {
+                                                                                                  "title":  "Te Reductor de Peso | Tiens Peru",
+                                                                                                  "description":  "Té herbal con 7 hierbas naturales que apoya el control de peso, la digestión y rutinas de bienestar diario.",
+                                                                                                  "ogImage":  "product-assets/A39 - TE MILENARIO TIENDA VIRTUAL/A39 - TE MILENARIO 1.png"
+                                                                                              }
+                                                                                  }
+                                                                       }
+                                                  }
+                                       }
+                     },
+                     {
+                         "id":  "cad88504-44bc-4949-aac9-e682c495e499",
+                         "sku":  "A94",
+                         "slug":  "tiens-fe-folic",
+                         "isActive":  true,
+                         "countries":  {
+                                           "pe":  {
+                                                      "isActive":  true,
+                                                      "ecommerceExternalId":  null,
+                                                      "ecommerceUrl":  null,
+                                                      "price":  {
+                                                                    "amount":  93.13,
+                                                                    "currency":  "PEN"
+                                                                },
+                                                      "categoryTags":  [
+
+                                                                       ],
+                                                      "heroImage":  "product-assets/A94 - TIENS FE FOLIC TIENDA VIRTUAL/A94 - TIENS FE FOLIC 1.png",
+                                                      "images":  [
+                                                                     "product-assets/A94 - TIENS FE FOLIC TIENDA VIRTUAL/A94 - TIENS FE FOLIC 1.png",
+                                                                     "product-assets/A94 - TIENS FE FOLIC TIENDA VIRTUAL/A94 - TIENS FE FOLIC 2.png",
+                                                                     "product-assets/A94 - TIENS FE FOLIC TIENDA VIRTUAL/A94 - TIENS FE FOLIC 3.png"
+                                                                 ],
+                                                      "translations":  {
+                                                                           "es":  {
+                                                                                      "name":  "Tiens Fe Folic",
+                                                                                      "shortDescription":  "Suplemento con hierro y ácido fólico que apoya la formación de glóbulos rojos, energía diaria y bienestar integral.",
+                                                                                      "intro":  "En distintas etapas de la vida, el organismo necesita nutrientes esenciales que apoyen la energía, el desarrollo y el equilibrio general. Factores como alimentación insuficiente, alta demanda física o etapas especiales pueden aumentar ciertos requerimientos nutricionales.\n\nTiens Fe Folic combina hierro y ácido fólico en una fórmula diseñada para complementar la nutrición diaria, apoyando procesos clave relacionados con la sangre, el crecimiento celular y el bienestar general.",
+                                                                                      "longDescription":  "Tiens Fe Folic es un suplemento formulado con hierro (fumarato ferroso) y ácido fólico (vitamina B9), dos nutrientes fundamentales para funciones esenciales del organismo. El hierro participa en la formación de hemoglobina, ayudando al transporte de oxígeno en la sangre, mientras que el ácido fólico interviene en la formación celular y en diversos procesos metabólicos.\n\nSu composición está pensada para acompañar etapas donde el cuerpo requiere mayor soporte nutricional, como crecimiento, actividad intensa o necesidades específicas del día a día.\n\nConsumido como parte de una rutina equilibrada, puede ser un aliado importante para quienes buscan mantener vitalidad, adecuado aporte nutricional y bienestar general.",
+                                                                                      "benefits":  [
+                                                                                                       "Contribuye a la formación de glóbulos rojos",
+                                                                                                       "Apoya la síntesis normal de hemoglobina",
+                                                                                                       "Favorece el transporte de oxígeno en el organismo",
+                                                                                                       "Complementa procesos de crecimiento y desarrollo",
+                                                                                                       "Apoya la formación celular y tejidos nuevos",
+                                                                                                       "Contribuye al bienestar general y energía diaria"
+                                                                                                   ],
+                                                                                      "applications":  [
+                                                                                                           "Rutinas de bienestar general",
+                                                                                                           "Etapas de crecimiento y desarrollo",
+                                                                                                           "Programas nutricionales supervisados",
+                                                                                                           "Etapas especiales con requerimientos aumentados"
+                                                                                                       ],
+                                                                                      "usage":  [
+                                                                                                    "De 7 a 17 años: 1 tableta diaria",
+                                                                                                    "Adultos: de 1 a 2 tabletas diarias",
+                                                                                                    "Embarazadas: según indicación profesional",
+                                                                                                    "Consumir con agua y preferentemente con alimentos"
+                                                                                                ],
+                                                                                      "restrictions":  [
+                                                                                                           "No apto para menores de 7 años",
+                                                                                                           "No exceder la dosis recomendada",
+                                                                                                           "Suspender el uso ante cualquier reacción desfavorable",
+                                                                                                           "No combinar con productos similares sin orientación profesional"
+                                                                                                       ],
+                                                                                      "recommendations":  [
+                                                                                                              "Adultos que buscan complementar su nutrición diaria",
+                                                                                                              "Personas con rutinas exigentes",
+                                                                                                              "Jóvenes mayores de 7 años según indicación",
+                                                                                                              "Puede combinarse con calcio y zinc en horarios separados"
+                                                                                                          ],
+                                                                                      "technicalInfo":  {
+                                                                                                            "tipo-de-producto":  "Suplemento alimenticio",
+                                                                                                            "marca":  "Tianshi",
+                                                                                                            "ingredientes-principales":  "Hierro (fumarato ferroso) y ácido fólico (Vitamina B9)",
+                                                                                                            "presentacion":  "Tabletas",
+                                                                                                            "contenido":  "120 tabletas x 0.25g"
+                                                                                                        },
+                                                                                      "ctaLabel":  "Comprar ahora",
+                                                                                      "videoUrl":  "https://youtu.be/JzevqUVeQUo?si=2a79D5qxckTgiz4I",
+                                                                                      "seo":  {
+                                                                                                  "title":  "Tiens Fe Folic | Tiens Peru",
+                                                                                                  "description":  "Suplemento con hierro y ácido fólico que apoya la formación de glóbulos rojos, energía diaria y bienestar integral.",
+                                                                                                  "ogImage":  "product-assets/A94 - TIENS FE FOLIC TIENDA VIRTUAL/A94 - TIENS FE FOLIC 1.png"
+                                                                                              }
+                                                                                  }
+                                                                       }
+                                                  }
+                                       }
+                     },
+                     {
+                         "id":  "ccb7f1c1-ed76-4fd1-b901-15993c2a21c6",
+                         "sku":  "A01",
+                         "slug":  "viokal",
+                         "isActive":  true,
+                         "countries":  {
+                                           "pe":  {
+                                                      "isActive":  true,
+                                                      "ecommerceExternalId":  null,
+                                                      "ecommerceUrl":  null,
+                                                      "price":  {
+                                                                    "amount":  82.47,
+                                                                    "currency":  "PEN"
+                                                                },
+                                                      "categoryTags":  [
+
+                                                                       ],
+                                                      "heroImage":  "product-assets/A01 - VIOKAL TIENDA VIRTUAL/A01 - VIOKAL 1.png",
+                                                      "images":  [
+                                                                     "product-assets/A01 - VIOKAL TIENDA VIRTUAL/A01 - VIOKAL 1.png",
+                                                                     "product-assets/A01 - VIOKAL TIENDA VIRTUAL/A01 - VIOKAL 2.png",
+                                                                     "product-assets/A01 - VIOKAL TIENDA VIRTUAL/A01 - VIOKAL 3.png",
+                                                                     "product-assets/A01 - VIOKAL TIENDA VIRTUAL/A01 - VIOKAL 4.png"
+                                                                 ],
+                                                      "translations":  {
+                                                                           "es":  {
+                                                                                      "name":  "Viokal",
+                                                                                      "shortDescription":  "Suplemento con calcio y nutrientes que apoya huesos, dientes y bienestar diario, ideal para complementar tu nutrición.",
+                                                                                      "intro":  "Con el paso del tiempo, el organismo necesita un adecuado aporte de calcio y minerales para mantener huesos fuertes y una buena calidad de vida. Factores como edad, alimentación insuficiente o alta demanda física pueden influir en estos requerimientos.\n\nViokal ha sido desarrollado como un suplemento nutritivo pensado para complementar la alimentación diaria, apoyando la salud ósea y el bienestar integral.",
+                                                                                      "longDescription":  "Viokal es un suplemento nutricional formulado para complementar el aporte de calcio y otros nutrientes esenciales relacionados con la salud de huesos, dientes y funciones corporales importantes. Su composición incluye una mezcla en polvo a base de leche descremada, hueso de vaca, vitaminas y minerales.\n\nEl calcio es un mineral fundamental en el organismo, ya que participa en la estructura ósea, la función muscular, la transmisión nerviosa y otros procesos fisiológicos esenciales. Por ello, mantener niveles adecuados resulta importante en distintas etapas de la vida.\n\nConsumido dentro de una alimentación equilibrada, Viokal puede ser un aliado para quienes buscan fortalecer su nutrición diaria y apoyar el bienestar general.",
+                                                                                      "benefits":  [
+                                                                                                       "Contribuye al mantenimiento de huesos fuertes",
+                                                                                                       "Apoya la salud de dientes y encías",
+                                                                                                       "Favorece funciones musculares normales",
+                                                                                                       "Participa en procesos de transmisión nerviosa",
+                                                                                                       "Complementa el bienestar general del organismo",
+                                                                                                       "Ayuda a cubrir requerimientos diarios de calcio"
+                                                                                                   ],
+                                                                                      "applications":  [
+                                                                                                           "Programas de nutrición ósea",
+                                                                                                           "Adultos con requerimientos aumentados de calcio",
+                                                                                                           "Personas activas físicamente",
+                                                                                                           "Alimentación complementaria balanceada"
+                                                                                                       ],
+                                                                                      "usage":  [
+                                                                                                    "Disolver 1 sachet en agua tibia",
+                                                                                                    "Mezclar hasta integrar completamente",
+                                                                                                    "Consumir una vez al día",
+                                                                                                    "Mantener uso constante según rutina personal"
+                                                                                                ],
+                                                                                      "restrictions":  [
+                                                                                                           "No exceder la dosis diaria recomendada",
+                                                                                                           "Suspender el uso ante cualquier reacción desfavorable",
+                                                                                                           "Consultar con un especialista si presenta condiciones médicas previas",
+                                                                                                           "Conservar en lugar fresco y seco"
+                                                                                                       ],
+                                                                                      "recommendations":  [
+                                                                                                              "Adultos que buscan complementar su aporte de calcio",
+                                                                                                              "Personas enfocadas en salud ósea",
+                                                                                                              "Usuarios con rutinas activas",
+                                                                                                              "Puede combinarse con Total Flex según recomendación profesional"
+                                                                                                          ],
+                                                                                      "technicalInfo":  {
+                                                                                                            "tipo-de-producto":  "Suplemento nutricional en polvo",
+                                                                                                            "marca":  "Tianshi",
+                                                                                                            "componentes-principales":  "Leche descremada, hueso de vaca, vitaminas y minerales",
+                                                                                                            "presentacion":  "Sachets",
+                                                                                                            "contenido":  "10 sachets x 10 g",
+                                                                                                            "reconocimientos":  "Producto reconocido por su enfoque nutricional orientado al calcio",
+                                                                                                            "certificaciones":  "Ganador del Premio de Oro a Categoría Principal en la 106ª Exposición Internacional Panamá-Pacífico (2021)"
+                                                                                                        },
+                                                                                      "ctaLabel":  "Comprar ahora",
+                                                                                      "videoUrl":  "https://youtu.be/QmGbYkRhF0E?si=_jVQLVX1rmKsV4xD",
+                                                                                      "seo":  {
+                                                                                                  "title":  "Viokal | Tiens Peru",
+                                                                                                  "description":  "Suplemento con calcio y nutrientes que apoya huesos, dientes y bienestar diario, ideal para complementar tu nutrición.",
+                                                                                                  "ogImage":  "product-assets/A01 - VIOKAL TIENDA VIRTUAL/A01 - VIOKAL 1.png"
+                                                                                              }
+                                                                                  }
+                                                                       }
+                                                  }
+                                       }
+                     },
+                     {
+                         "id":  "aa7fc7af-96d9-4127-8b77-dbcb2fc153ad",
+                         "sku":  "A93",
+                         "slug":  "tiens-colageno-forte-gingseng",
+                         "isActive":  true,
+                         "countries":  {
+                                           "pe":  {
+                                                      "isActive":  true,
+                                                      "ecommerceExternalId":  null,
+                                                      "ecommerceUrl":  null,
+                                                      "price":  {
+                                                                    "amount":  131.27,
+                                                                    "currency":  "PEN"
+                                                                },
+                                                      "categoryTags":  [
+
+                                                                       ],
+                                                      "heroImage":  "product-assets/A93 - TIENS COLAGENO TIENDA VIRTUAL/A93 - TIENS COLAGENO 1.png",
+                                                      "images":  [
+                                                                     "product-assets/A93 - TIENS COLAGENO TIENDA VIRTUAL/A93 - TIENS COLAGENO 1.png",
+                                                                     "product-assets/A93 - TIENS COLAGENO TIENDA VIRTUAL/A93 - TIENS COLAGENO 2.png",
+                                                                     "product-assets/A93 - TIENS COLAGENO TIENDA VIRTUAL/A93 - TIENS COLAGENO 3.png",
+                                                                     "product-assets/A93 - TIENS COLAGENO TIENDA VIRTUAL/A93 - TIENS COLAGENO 4.png"
+                                                                 ],
+                                                      "translations":  {
+                                                                           "es":  {
+                                                                                      "name":  "Tiens Colágeno Forte + Gingseng",
+                                                                                      "shortDescription":  "Colágeno líquido con ginseng que apoya piel, articulaciones, bienestar diario y rutinas activas.",
+                                                                                      "intro":  "Con el paso del tiempo, el cuerpo reduce de forma natural la producción de colágeno, una proteína esencial presente en la piel, articulaciones, tendones y tejidos conectivos. Esto puede reflejarse en cambios visibles, menor elasticidad o necesidad de mayor soporte físico.\n\nColágeno Forte + Ginseng de Tianshi combina ingredientes funcionales pensados para complementar rutinas enfocadas en belleza, movilidad y bienestar integral.",
+                                                                                      "longDescription":  "Colágeno Forte + Ginseng es un suplemento en sachets líquidos formulado con péptidos de colágeno de pescado, extracto de ginseng, miel Manuka y zanahoria morada. Esta combinación reúne ingredientes reconocidos por su aporte dentro de programas orientados a la salud de la piel, soporte musculoesquelético y vitalidad diaria.\n\nEl colágeno es una proteína estructural clave en diversos tejidos del cuerpo. Su adecuado soporte puede ser importante para mantener piel firme, articulaciones saludables y acompañar rutinas activas.\n\nGracias a su formato práctico y de fácil consumo, puede integrarse cómodamente en la rutina diaria como complemento de una alimentación balanceada y un estilo de vida saludable.",
+                                                                                      "benefits":  [
+                                                                                                       "Apoya la salud y apariencia de la piel",
+                                                                                                       "Complementa rutinas de envejecimiento saludable",
+                                                                                                       "Favorece el bienestar de articulaciones, músculos y huesos",
+                                                                                                       "Contribuye a rutinas deportivas y recuperación física",
+                                                                                                       "Aporta sensación de saciedad como apoyo nutricional",
+                                                                                                       "Formato práctico para consumo diario"
+                                                                                                   ],
+                                                                                      "applications":  [
+                                                                                                           "Rutinas de belleza y cuidado personal",
+                                                                                                           "Programas de movilidad y bienestar articular",
+                                                                                                           "Estilos de vida activos",
+                                                                                                           "Planes nutricionales balanceados"
+                                                                                                       ],
+                                                                                      "usage":  [
+                                                                                                    "Tomar 1 sachet al día directamente al abrirlo",
+                                                                                                    "También puede mezclarse con agua si se prefiere",
+                                                                                                    "Para uso intensivo, consumir 2 sachets al día según necesidad",
+                                                                                                    "Mantener consumo constante dentro de una rutina saludable"
+                                                                                                ],
+                                                                                      "restrictions":  [
+                                                                                                           "No exceder la ingesta diaria recomendada",
+                                                                                                           "No utilizar como sustituto de una dieta variada",
+                                                                                                           "Mantener una alimentación equilibrada y estilo de vida saludable",
+                                                                                                           "Conservar en lugar fresco y seco"
+                                                                                                       ],
+                                                                                      "recommendations":  [
+                                                                                                              "Adultos que buscan cuidado integral de la piel",
+                                                                                                              "Personas con rutinas activas o deportivas",
+                                                                                                              "Usuarios enfocados en bienestar articular y muscular",
+                                                                                                              "Puede combinarse con Tiens Energy y Total Flex"
+                                                                                                          ],
+                                                                                      "technicalInfo":  {
+                                                                                                            "tipo-de-producto":  "Suplemento líquido funcional",
+                                                                                                            "marca":  "Tianshi",
+                                                                                                            "ingredientes-principales":  "Péptidos de colágeno de pescado, ginseng, miel Manuka y zanahoria morada",
+                                                                                                            "presentacion":  "Sachets",
+                                                                                                            "contenido":  "15 sachets x 15 ml",
+                                                                                                            "tecnologia":  "Desarrollado con tecnología doble NUTRI™, orientada a combinar nutrientes solubles en agua y aceite junto con extractos vegetales e ingredientes funcionales."
+                                                                                                        },
+                                                                                      "ctaLabel":  "Comprar ahora",
+                                                                                      "videoUrl":  "https://youtu.be/tTwWootASTE?si=fwk4NLXUlA1CkwbN",
+                                                                                      "seo":  {
+                                                                                                  "title":  "Tiens Colágeno Forte + Gingseng | Tiens Peru",
+                                                                                                  "description":  "Colágeno líquido con ginseng que apoya piel, articulaciones, bienestar diario y rutinas activas.",
+                                                                                                  "ogImage":  "product-assets/A93 - TIENS COLAGENO TIENDA VIRTUAL/A93 - TIENS COLAGENO 1.png"
+                                                                                              }
+                                                                                  }
+                                                                       }
+                                                  }
+                                       }
+                     },
+                     {
+                         "id":  "fa24e557-2913-48f3-a25a-919338e6a89b",
+                         "sku":  "F18",
+                         "slug":  "pasta-dental-herbal-orecare",
+                         "isActive":  true,
+                         "countries":  {
+                                           "pe":  {
+                                                      "isActive":  true,
+                                                      "ecommerceExternalId":  null,
+                                                      "ecommerceUrl":  null,
+                                                      "price":  {
+                                                                    "amount":  30.86,
+                                                                    "currency":  "PEN"
+                                                                },
+                                                      "categoryTags":  [
+
+                                                                       ],
+                                                      "heroImage":  "product-assets/F18 - PASTA DENTAL ORECARE TIENDA VIRTUAL/F18 - PASTA DENTAL ORECARE 1.png",
+                                                      "images":  [
+                                                                     "product-assets/F18 - PASTA DENTAL ORECARE TIENDA VIRTUAL/F18 - PASTA DENTAL ORECARE 1.png",
+                                                                     "product-assets/F18 - PASTA DENTAL ORECARE TIENDA VIRTUAL/F18 - PASTA DENTAL ORECARE 2.png",
+                                                                     "product-assets/F18 - PASTA DENTAL ORECARE TIENDA VIRTUAL/F18 - PASTA DENTAL ORECARE 3.png"
+                                                                 ],
+                                                      "translations":  {
+                                                                           "es":  {
+                                                                                      "name":  "Pasta Dental Herbal Orecare",
+                                                                                      "shortDescription":  "Pasta dental herbal con extractos naturales que ayuda a proteger dientes, encías y mantener un aliento fresco.",
+                                                                                      "intro":  "La salud bucal diaria es clave para mantener una sonrisa saludable y una sensación de frescura constante. Una buena rutina de higiene ayuda a proteger dientes y encías frente a factores cotidianos como restos de alimentos, placa bacteriana y mal aliento.\n\nLa Pasta Dental Herbal Orecare combina extractos botánicos tradicionales con una fórmula pensada para complementar el cuidado bucal diario de toda la familia.",
+                                                                                      "longDescription":  "La Pasta Dental Herbal Orecare es un producto de cuidado personal formulado con extractos naturales de plantas tradicionales como sarcandra, madreselva y crisantemo indicum. Estos ingredientes son reconocidos por su uso tradicional dentro del cuidado e higiene personal.\n\nSu fórmula cremosa y de textura suave ha sido desarrollada para ayudar en la limpieza bucal diaria, contribuyendo a mantener dientes limpios, encías cuidadas y una sensación prolongada de frescura.\n\nGracias a su sabor a menta y su composición herbal, puede integrarse fácilmente en la rutina diaria de higiene oral, ofreciendo una experiencia agradable de cepillado.",
+                                                                                      "benefits":  [
+                                                                                                       "Ayuda a mantener dientes y encías limpios",
+                                                                                                       "Contribuye a reducir acumulación de placa y sarro",
+                                                                                                       "Brinda sensación de aliento fresco",
+                                                                                                       "Fórmula cremosa y agradable al cepillado",
+                                                                                                       "Complementa rutinas de higiene oral diaria",
+                                                                                                       "Elaborada con extractos herbales tradicionales"
+                                                                                                   ],
+                                                                                      "applications":  [
+                                                                                                           "Rutinas diarias de higiene bucal",
+                                                                                                           "Limpieza después de cada comida",
+                                                                                                           "Cuidado preventivo de dientes y encías",
+                                                                                                           "Uso familiar según indicación de edad"
+                                                                                                       ],
+                                                                                      "usage":  [
+                                                                                                    "Colocar aproximadamente un tercio de la superficie del cepillo dental con pasta",
+                                                                                                    "Cepillar dientes y encías suavemente",
+                                                                                                    "Realizar el cepillado durante el tiempo recomendado",
+                                                                                                    "Utilizar al menos 3 veces al día, preferentemente después de cada comida"
+                                                                                                ],
+                                                                                      "restrictions":  [
+                                                                                                           "Suspender el uso si presenta alguna reacción desfavorable",
+                                                                                                           "Recomendable a partir de los 2 años de edad",
+                                                                                                           "Mantener en lugar fresco y ventilado",
+                                                                                                           "Evitar ingerir el producto"
+                                                                                                       ],
+                                                                                      "recommendations":  [
+                                                                                                              "Adultos y niños mayores de 2 años",
+                                                                                                              "Personas que buscan higiene bucal diaria",
+                                                                                                              "Usuarios que prefieren fórmulas herbales",
+                                                                                                              "Rutinas enfocadas en frescura y limpieza oral"
+                                                                                                          ],
+                                                                                      "technicalInfo":  {
+                                                                                                            "tipo-de-producto":  "Pasta dental herbal",
+                                                                                                            "marca":  "Orecare",
+                                                                                                            "ingredientes-principales":  "Sarcandra, madreselva y crisantemo indicum",
+                                                                                                            "presentacion":  "Tubo",
+                                                                                                            "contenido":  "135gr",
+                                                                                                            "diferencial":  "Fórmula desarrollada con extractos botánicos tradicionales y sabor a menta para una experiencia fresca y agradable."
+                                                                                                        },
+                                                                                      "ctaLabel":  "Comprar ahora",
+                                                                                      "videoUrl":  "https://youtu.be/Lx2ArBmeshI?si=ehToTgno_bch5Icm",
+                                                                                      "seo":  {
+                                                                                                  "title":  "Pasta Dental Herbal Orecare | Tiens Peru",
+                                                                                                  "description":  "Pasta dental herbal con extractos naturales que ayuda a proteger dientes, encías y mantener un aliento fresco.",
+                                                                                                  "ogImage":  "product-assets/F18 - PASTA DENTAL ORECARE TIENDA VIRTUAL/F18 - PASTA DENTAL ORECARE 1.png"
+                                                                                              }
+                                                                                  }
+                                                                       }
+                                                  }
+                                       }
+                     },
+                     {
+                         "id":  "2ac12f0b-dc17-40db-bdca-4640cd8c7395",
+                         "sku":  "A75",
+                         "slug":  "tiens-cordycafe",
+                         "isActive":  true,
+                         "countries":  {
+                                           "pe":  {
+                                                      "isActive":  true,
+                                                      "ecommerceExternalId":  null,
+                                                      "ecommerceUrl":  null,
+                                                      "price":  {
+                                                                    "amount":  59.47,
+                                                                    "currency":  "PEN"
+                                                                },
+                                                      "categoryTags":  [
+
+                                                                       ],
+                                                      "heroImage":  "product-assets/A75 - CORDYCAFE TIENDA VIRTUAL/A75 - CORDYCAFE 1.png",
+                                                      "images":  [
+                                                                     "product-assets/A75 - CORDYCAFE TIENDA VIRTUAL/A75 - CORDYCAFE 1.png",
+                                                                     "product-assets/A75 - CORDYCAFE TIENDA VIRTUAL/A75 - CORDYCAFE 2.png",
+                                                                     "product-assets/A75 - CORDYCAFE TIENDA VIRTUAL/A75 - CORDYCAFE 3.png",
+                                                                     "product-assets/A75 - CORDYCAFE TIENDA VIRTUAL/A75 - CORDYCAFE 4.png"
+                                                                 ],
+                                                      "translations":  {
+                                                                           "es":  {
+                                                                                      "name":  "Tiens Cordycafe",
+                                                                                      "shortDescription":  "Café funcional con Cordyceps que apoya energía, concentración y bienestar diario con gran sabor y aroma.",
+                                                                                      "intro":  "Comenzar el día con energía y enfoque es una prioridad para muchas personas. Sin embargo, el ritmo diario, el cansancio acumulado y la alta exigencia física o mental pueden afectar el rendimiento cotidiano.\n\nTiens Cordycafe combina café instantáneo con Cordyceps, creando una bebida funcional pensada para acompañar mañanas activas, apoyar la vitalidad y complementar una rutina de bienestar.",
+                                                                                      "longDescription":  "Tiens Cordycafe es una bebida instantánea elaborada con café de calidad y Cordyceps sinensis, un hongo tradicionalmente valorado por su uso dentro de rutinas orientadas a energía, resistencia y equilibrio general.\n\nSu fórmula combina extracto de café en polvo, crema no láctea, leche desnatada en polvo y Cordyceps, ofreciendo una experiencia agradable de sabor y aroma junto con un perfil funcional pensado para el día a día.\n\nEl Cordyceps es conocido por su relación con procesos energéticos del organismo, mientras que el café aporta el impulso característico para comenzar la jornada. Juntos forman una excelente alternativa para quienes buscan rendimiento físico y mental con practicidad.",
+                                                                                      "benefits":  [
+                                                                                                       "Ayuda a reducir sensación de fatiga",
+                                                                                                       "Favorece energía y vitalidad diaria",
+                                                                                                       "Contribuye a mejorar la concentración",
+                                                                                                       "Apoya el rendimiento físico y mental",
+                                                                                                       "Complementa el metabolismo y circulación",
+                                                                                                       "Aporta antioxidantes naturales"
+                                                                                                   ],
+                                                                                      "applications":  [
+                                                                                                           "Rutinas matutinas",
+                                                                                                           "Jornadas laborales intensas",
+                                                                                                           "Actividad física moderada",
+                                                                                                           "Estudio y concentración"
+                                                                                                       ],
+                                                                                      "usage":  [
+                                                                                                    "Verter 1 sachet en una taza",
+                                                                                                    "Agregar 150 ml de agua caliente (70° a 80°C)",
+                                                                                                    "Mezclar hasta disolver completamente",
+                                                                                                    "Consumir preferentemente por la mañana"
+                                                                                                ],
+                                                                                      "restrictions":  [
+                                                                                                           "No recomendado para personas sensibles a alguno de sus ingredientes",
+                                                                                                           "No usar como sustituto de una dieta equilibrada",
+                                                                                                           "No recomendado para niños, lactantes o embarazadas",
+                                                                                                           "Conservar en lugar fresco y seco"
+                                                                                                       ],
+                                                                                      "recommendations":  [
+                                                                                                              "Adultos que buscan energía diaria",
+                                                                                                              "Personas con jornadas exigentes",
+                                                                                                              "Usuarios que desean mejorar enfoque y rendimiento",
+                                                                                                              "Combinable con suplementos Tiens según rutina personal"
+                                                                                                          ],
+                                                                                      "technicalInfo":  {
+                                                                                                            "tipo-de-producto":  "Bebida funcional instantánea",
+                                                                                                            "marca":  "Tianshi",
+                                                                                                            "ingredientes-principales":  "Extracto de café, Cordyceps sinensis, crema no láctea y leche desnatada en polvo",
+                                                                                                            "presentacion":  "Sachets",
+                                                                                                            "contenido":  "12 sachets x 15 g",
+                                                                                                            "diferencial":  "Combina café instantáneo con Cordyceps para unir sabor, practicidad y soporte funcional en una sola bebida."
+                                                                                                        },
+                                                                                      "ctaLabel":  "Comprar ahora",
+                                                                                      "videoUrl":  "https://youtu.be/h95ne-YMH-4?si=RlacxrU6ssj8lPoS",
+                                                                                      "seo":  {
+                                                                                                  "title":  "Tiens Cordycafe | Tiens Peru",
+                                                                                                  "description":  "Café funcional con Cordyceps que apoya energía, concentración y bienestar diario con gran sabor y aroma.",
+                                                                                                  "ogImage":  "product-assets/A75 - CORDYCAFE TIENDA VIRTUAL/A75 - CORDYCAFE 1.png"
+                                                                                              }
+                                                                                  }
+                                                                       }
+                                                  }
+                                       }
+                     },
+                     {
+                         "id":  "f67115dd-83c2-445d-bfb2-89c622803088",
+                         "sku":  "CSSKECO008",
+                         "slug":  "green-bubble-cleanser",
+                         "isActive":  true,
+                         "countries":  {
+                                           "pe":  {
+                                                      "isActive":  true,
+                                                      "ecommerceExternalId":  null,
+                                                      "ecommerceUrl":  null,
+                                                      "price":  {
+                                                                    "amount":  72.93,
+                                                                    "currency":  "PEN"
+                                                                },
+                                                      "categoryTags":  [
+
+                                                                       ],
+                                                      "heroImage":  "product-assets/CSSKECO008 - GREEN BUBBLE CLEANSER/CSSKECO008  - GREEN BUBBLE CLEANSER 4.png",
+                                                      "images":  [
+                                                                     "product-assets/CSSKECO008 - GREEN BUBBLE CLEANSER/CSSKECO008  - GREEN BUBBLE CLEANSER 4.png",
+                                                                     "product-assets/CSSKECO008 - GREEN BUBBLE CLEANSER/CSSKECO008 - GREEN BUBBLE CLEANSER 1.png",
+                                                                     "product-assets/CSSKECO008 - GREEN BUBBLE CLEANSER/CSSKECO008 - GREEN BUBBLE CLEANSER 2.png",
+                                                                     "product-assets/CSSKECO008 - GREEN BUBBLE CLEANSER/CSSKECO008 - GREEN BUBBLE CLEANSER 3.png"
+                                                                 ],
+                                                      "translations":  {
+                                                                           "es":  {
+                                                                                      "name":  "Green Bubble Cleanser",
+                                                                                      "shortDescription":  "Gel limpiador facial espumante que exfolia, limpia e hidrata, dejando la piel fresca y lista para tu rutina skincare.",
+                                                                                      "intro":  "La piel del rostro está expuesta diariamente a contaminación, grasa, maquillaje, sudor y factores ambientales que pueden afectar su apariencia y frescura. Por eso, una limpieza adecuada es el primer paso de cualquier rutina de cuidado facial.\n\nGreen Bubble Cleanser ha sido desarrollado para ofrecer una experiencia innovadora de limpieza, transformándose de gel a espuma en segundos y dejando el rostro listo para continuar con el skincare habitual.",
+                                                                                      "longDescription":  "Green Bubble Cleanser es un limpiador facial en gel con tecnología espumante inspirado en fórmulas coreanas de cuidado de la piel. Su textura cambia rápidamente de fase líquida a espuma, ayudando a remover impurezas mientras brinda una sensación refrescante y agradable.\n\nSu fórmula combina ingredientes funcionales como extracto de semilla de cacao, extracto de micelio de hongos y extracto hidrolizado de placenta de centeno, seleccionados para complementar la limpieza facial y apoyar el aspecto saludable de la piel.\n\nAdemás de limpiar, ayuda a preparar el rostro para la siguiente etapa de la rutina de belleza, permitiendo una mejor experiencia con tónicos, sérums o hidratantes posteriores.",
+                                                                                      "benefits":  [
+                                                                                                       "Limpia profundamente el rostro",
+                                                                                                       "Ayuda a remover impurezas y residuos diarios",
+                                                                                                       "Efecto exfoliante suave",
+                                                                                                       "Aporta sensación fresca e inmediata",
+                                                                                                       "Contribuye a una piel con apariencia revitalizada",
+                                                                                                       "Deja el rostro listo para la rutina skincare"
+                                                                                                   ],
+                                                                                      "applications":  [
+                                                                                                           "Rutina facial diaria de mañana o noche",
+                                                                                                           "Limpieza posterior al maquillaje",
+                                                                                                           "Preparación previa al uso de sérums o cremas",
+                                                                                                           "Rutinas enfocadas en frescura y cuidado facial"
+                                                                                                       ],
+                                                                                      "usage":  [
+                                                                                                    "Aplicar de 2 a 3 ml sobre el rostro limpio y seco o ligeramente húmedo",
+                                                                                                    "Distribuir suavemente evitando el área de los ojos",
+                                                                                                    "Esperar unos segundos hasta alcanzar el efecto espumante",
+                                                                                                    "Masajear suavemente el rostro",
+                                                                                                    "Enjuagar con abundante agua hasta retirar todo residuo"
+                                                                                                ],
+                                                                                      "restrictions":  [
+                                                                                                           "No usar en caso de hipersensibilidad a alguno de sus componentes",
+                                                                                                           "Evitar aplicar sobre heridas abiertas o lesiones cutáneas",
+                                                                                                           "No usar sobre afecciones dermatológicas activas sin orientación profesional",
+                                                                                                           "Evitar contacto directo con los ojos",
+                                                                                                           "Suspender uso ante irritación o reacción desfavorable"
+                                                                                                       ],
+                                                                                      "recommendations":  [
+                                                                                                              "Hombres y mujeres que buscan limpieza facial diaria",
+                                                                                                              "• Personas con rutina skincare",
+                                                                                                              "• Usuarios que desean sensación fresca y piel limpia",
+                                                                                                              "• Combinable con productos de belleza Tiens como Cilvaris Gel Rejuvenecedor y bloqueador SPF50"
+                                                                                                          ],
+                                                                                      "technicalInfo":  {
+                                                                                                            "tipo-de-producto":  "Limpiador facial en gel espumante",
+                                                                                                            "marca":  "Viewtale",
+                                                                                                            "ingredientes-principales":  "Extracto de semilla de cacao, micelio de hongos y placenta hidrolizada de centeno",
+                                                                                                            "presentacion":  "Envase individual",
+                                                                                                            "contenido":  "80ml"
+                                                                                                        },
+                                                                                      "ctaLabel":  "Comprar ahora",
+                                                                                      "videoUrl":  null,
+                                                                                      "seo":  {
+                                                                                                  "title":  "Green Bubble Cleanser | Tiens Peru",
+                                                                                                  "description":  "Gel limpiador facial espumante que exfolia, limpia e hidrata, dejando la piel fresca y lista para tu rutina skincare.",
+                                                                                                  "ogImage":  "product-assets/CSSKECO008 - GREEN BUBBLE CLEANSER/CSSKECO008  - GREEN BUBBLE CLEANSER 4.png"
+                                                                                              }
+                                                                                  }
+                                                                       }
+                                                  }
+                                       }
+                     }
+                 ]
+}
