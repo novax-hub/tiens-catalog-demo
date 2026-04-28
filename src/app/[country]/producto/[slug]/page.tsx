@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import catalog from "@/mock-data/catalog.fase1.mock.json";
+import { EcommerceCTAButton } from "@/components/ecommerce-cta-button";
 
 type ProductPageProps = {
   params: Promise<{ country: string; slug: string }>;
@@ -122,9 +123,13 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </div>
           )}
 
-          <button className="btn-primary" style={{ marginTop: "auto" }}>
-            {translations.ctaLabel}
-          </button>
+          <div style={{ marginTop: "auto" }}>
+            <EcommerceCTAButton
+              ecommerceUrl={countryData.ecommerceUrl}
+              label={translations.ctaLabel}
+              className="btn-primary"
+            />
+          </div>
         </div>
       </div>
 
