@@ -1,9 +1,14 @@
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import catalog from "@/mock-data/catalog.fase1.mock.json";
 import { EcommerceCTAButton } from "@/components/ecommerce-cta-button";
 
 type ProductPageProps = {
   params: Promise<{ country: string; slug: string }>;
+};
+
+const getCountryData = (product: (typeof catalog.products)[number], country: string) => {
+  return product.countries[country as keyof typeof product.countries] ?? product.countries.pe;
 };
 
 export async function generateStaticParams() {
@@ -29,7 +34,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     notFound();
   }
 
-  const countryData = product.countries.pe;
+  const countryData = getCountryData(product, country);
   const translations = countryData.translations.es;
 
   return (
@@ -41,11 +46,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
       </div>
 
       <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "var(--space-6)",
-        }}
+        className="product-detail-layout"
       >
         {/* Images */}
         <div>
@@ -53,17 +54,17 @@ export default async function ProductPage({ params }: ProductPageProps) {
             <img
               src={`/${countryData.heroImage}`}
               alt={translations.name}
-              style={{ width: "100%", borderRadius: 12, marginBottom: "var(--space-4)" }}
+              style={{ width: "100%", maxWidth: "100%", borderRadius: 12, marginBottom: "var(--space-4)" }}
             />
           )}
           {countryData.images.length > 1 && (
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "var(--space-2)" }}>
+            <div className="product-gallery-grid">
               {countryData.images.map((img, idx) => (
                 <img
                   key={idx}
                   src={`/${img}`}
                   alt={`${translations.name} ${idx}`}
-                  style={{ width: "100%", borderRadius: 8, objectFit: "cover", height: 100 }}
+                  style={{ width: "100%", maxWidth: "100%", borderRadius: 8, objectFit: "cover", height: 100 }}
                 />
               ))}
             </div>
@@ -72,10 +73,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
         {/* Content */}
         <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-4)" }}>
-          <h1 style={{ fontSize: "var(--font-size-h2)", margin: 0 }}>{translations.name}</h1>
+          <h1 style={{ fontSize: "clamp(1.8rem, 5vw, var(--font-size-h2))", margin: 0, lineHeight: 1.1 }}>{translations.name}</h1>
 
           {countryData.price.amount && (
-            <div style={{ fontSize: "var(--font-size-h2)", fontWeight: 700, color: "var(--color-primary-700)" }}>
+            <div style={{ fontSize: "clamp(1.5rem, 4vw, var(--font-size-h2))", fontWeight: 700, color: "var(--color-primary-700)", lineHeight: 1.1 }}>
               {countryData.price.currency} {countryData.price.amount.toFixed(2)}
             </div>
           )}
@@ -180,4 +181,32 @@ export default async function ProductPage({ params }: ProductPageProps) {
       </div>
     </div>
   );
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ country: string; slug: string }> }): Promise<Metadata> {
+  const { country, slug } = await params;
+  const product = catalog.products.find((p) => p.slug === slug);
+
+  if (!product) {
+    return { title: "Producto no encontrado" };
+  }
+
+  const countryData = product.countries[country as keyof typeof product.countries] ?? product.countries.pe;
+  const translations = countryData.translations.es;
+
+  const title = translations.seo?.title ?? translations.name;
+  const description = translations.seo?.description ?? translations.shortDescription ?? (translations.intro ? translations.intro.slice(0, 160) : undefined);
+  const image = translations.seo?.ogImage ?? countryData.heroImage;
+
+  return {
+    title,
+    description,
+    openGraph: image
+      ? {
+          title,
+          description,
+          images: [`/${image}`],
+        }
+      : undefined,
+  };
 }
