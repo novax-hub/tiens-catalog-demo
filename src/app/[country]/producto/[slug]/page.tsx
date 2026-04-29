@@ -55,7 +55,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
               heroImage={countryData.heroImage}
               galleryImages={countryData.images || []}
               productName={translations.name}
-              isMobile={false}
             />
           )}
         </div>
