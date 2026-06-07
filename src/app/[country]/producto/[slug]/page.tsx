@@ -1,25 +1,15 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import catalog from "@/mock-data/catalog.fase1.mock.json";
+import { getCatalogProductDetailBySlug } from "@/lib/catalog-api.ts";
 import { EcommerceCTAButton } from "@/components/ecommerce-cta-button";
 import { ProductGallery } from "@/components/product-gallery";
+import { isSupportedCountry } from "@/lib/countries";
 
 type ProductPageProps = {
   params: Promise<{ country: string; slug: string }>;
 };
 
-const getCountryData = (product: (typeof catalog.products)[number], country: string) => {
-  return product.countries[country as keyof typeof product.countries] ?? product.countries.pe;
-};
-
-export async function generateStaticParams() {
-  return catalog.products.flatMap((product) =>
-    ["pe", "ec", "bo", "co", "mx"].map((country) => ({
-      country,
-      slug: product.slug,
-    }))
-  );
-}
+export const dynamic = "force-dynamic";
 
 const getYoutubeEmbedUrl = (url: string) => {
   const regExp = /(?:youtu\.be\/|youtube\.com\/watch\?v=)([^&]+)/;
@@ -29,14 +19,27 @@ const getYoutubeEmbedUrl = (url: string) => {
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const { country, slug } = await params;
-  const product = catalog.products.find((p) => p.slug === slug);
 
-  if (!product) {
+  if (!isSupportedCountry(country)) {
     notFound();
   }
 
-  const countryData = getCountryData(product, country);
-  const translations = countryData.translations.es;
+  const response = await getCatalogProductDetailBySlug(country, slug, "es");
+
+  if (!response) {
+    notFound();
+  }
+
+  const { detail } = response;
+  const sortedImages = [...detail.data.images].sort((a, b) => {
+    if (a.isPrimary !== b.isPrimary) {
+      return a.isPrimary ? -1 : 1;
+    }
+
+    return a.sortOrder - b.sortOrder;
+  });
+  const heroImageUrl = sortedImages[0]?.url ?? detail.data.heroImage ?? null;
+  const galleryImageUrls = sortedImages.slice(1).map((image) => image.url);
 
   return (
     <div className="site-container">
@@ -50,11 +53,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
       <div className="product-detail-layout">
         {/* Image Gallery Section */}
         <div>
-          {countryData.heroImage && (
+          {heroImageUrl && (
             <ProductGallery
-              heroImage={countryData.heroImage}
-              galleryImages={countryData.images || []}
-              productName={translations.name}
+              heroImage={heroImageUrl}
+              galleryImages={galleryImageUrls}
+              productName={detail.data.name}
             />
           )}
         </div>
@@ -63,28 +66,28 @@ export default async function ProductPage({ params }: ProductPageProps) {
         <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-4)" }}>
           {/* Name */}
           <h1 style={{ fontSize: "clamp(1.8rem, 5vw, var(--font-size-h2))", margin: 0, lineHeight: 1.1 }}>
-            {translations.name}
+            {detail.data.name}
           </h1>
 
           {/* Intro / Short Description */}
-          {translations.intro && (
+          {detail.data.intro && (
             <p style={{ fontSize: "var(--font-size-body)", color: "var(--color-neutral-700)" }}>
-              {translations.intro}
+              {detail.data.intro}
             </p>
           )}
 
           {/* Price */}
-          {countryData.price.amount && (
+          {detail.data.price && (
             <div style={{ fontSize: "clamp(1.5rem, 4vw, var(--font-size-h2))", fontWeight: 700, color: "var(--color-primary-700)", lineHeight: 1.1 }}>
-              {countryData.price.currency} {countryData.price.amount.toFixed(2)}
+              {detail.data.currency} {detail.data.price.toFixed(2)}
             </div>
           )}
 
           {/* CTA Button */}
           <div>
             <EcommerceCTAButton
-              ecommerceUrl={countryData.ecommerceUrl}
-              label={translations.ctaLabel}
+              ecommerceUrl={detail.data.ecommerceUrl}
+              label={detail.data.ctaLabel ?? undefined}
               className="btn-primary"
             />
           </div>
@@ -94,19 +97,19 @@ export default async function ProductPage({ params }: ProductPageProps) {
       {/* Content Sections Below (Same for desktop & mobile) */}
       <div style={{ marginTop: "var(--space-7)" }}>
         {/* Product Description */}
-        {translations.longDescription && (
+        {detail.data.longDescription && (
           <div style={{ marginBottom: "var(--space-6)" }}>
             <h2 style={{ fontSize: "var(--font-size-h2)" }}>Descripción</h2>
-            <p style={{ color: "var(--color-neutral-700)" }}>{translations.longDescription}</p>
+            <p style={{ color: "var(--color-neutral-700)" }}>{detail.data.longDescription}</p>
           </div>
         )}
 
         {/* Benefits */}
-        {translations.benefits && translations.benefits.length > 0 && (
+        {detail.data.benefits && detail.data.benefits.length > 0 && (
           <div style={{ marginBottom: "var(--space-6)" }}>
             <h3 style={{ fontSize: "var(--font-size-h3)" }}>Beneficio</h3>
             <ul style={{ margin: 0, paddingLeft: "var(--space-4)", color: "var(--color-neutral-700)" }}>
-              {translations.benefits.map((b, i) => (
+              {detail.data.benefits.map((b, i) => (
                 <li key={i}>{b}</li>
               ))}
             </ul>
@@ -114,11 +117,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
         )}
 
         {/* Usage */}
-        {translations.usage && translations.usage.length > 0 && (
+        {detail.data.usage && detail.data.usage.length > 0 && (
           <div style={{ marginBottom: "var(--space-6)" }}>
             <h3 style={{ fontSize: "var(--font-size-h3)" }}>Uso</h3>
             <ul style={{ margin: 0, paddingLeft: "var(--space-4)", color: "var(--color-neutral-700)" }}>
-              {translations.usage.map((u, i) => (
+              {detail.data.usage.map((u, i) => (
                 <li key={i}>{u}</li>
               ))}
             </ul>
@@ -126,11 +129,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
         )}
 
         {/* Applications */}
-        {translations.applications && translations.applications.length > 0 && (
+        {detail.data.applications && detail.data.applications.length > 0 && (
           <div style={{ marginBottom: "var(--space-6)" }}>
             <h2 style={{ fontSize: "var(--font-size-h2)" }}>Aplicaciones</h2>
             <ul style={{ color: "var(--color-neutral-700)" }}>
-              {translations.applications.map((a, i) => (
+              {detail.data.applications.map((a, i) => (
                 <li key={i}>{a}</li>
               ))}
             </ul>
@@ -138,11 +141,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
         )}
 
         {/* Restrictions */}
-        {translations.restrictions && translations.restrictions.length > 0 && (
+        {detail.data.restrictions && detail.data.restrictions.length > 0 && (
           <div style={{ marginBottom: "var(--space-6)" }}>
             <h2 style={{ fontSize: "var(--font-size-h2)" }}>Restricciones</h2>
             <ul style={{ color: "var(--color-neutral-700)" }}>
-              {translations.restrictions.map((r, i) => (
+              {detail.data.restrictions.map((r, i) => (
                 <li key={i}>{r}</li>
               ))}
             </ul>
@@ -150,14 +153,14 @@ export default async function ProductPage({ params }: ProductPageProps) {
         )}
 
         {/* Technical Info */}
-        {Object.keys(translations.technicalInfo).length > 0 && (
+        {detail.data.technicalInfo && Object.keys(detail.data.technicalInfo).length > 0 && (
           <div style={{ marginBottom: "var(--space-6)" }}>
             <h2 style={{ fontSize: "var(--font-size-h2)" }}>Información técnica</h2>
             <dl style={{ color: "var(--color-neutral-700)" }}>
-              {Object.entries(translations.technicalInfo).map(([key, value]) => (
+              {Object.entries(detail.data.technicalInfo).map(([key, value]) => (
                 <div key={key} style={{ marginBottom: "var(--space-2)" }}>
                   <dt style={{ fontWeight: 600 }}>{key}:</dt>
-                  <dd style={{ margin: "0 0 0 var(--space-2)" }}>{value}</dd>
+                  <dd style={{ margin: "0 0 0 var(--space-2)" }}>{typeof value === "string" ? value : JSON.stringify(value)}</dd>
                 </div>
               ))}
             </dl>
@@ -165,14 +168,14 @@ export default async function ProductPage({ params }: ProductPageProps) {
         )}
 
         {/* Video at the end */}
-        {translations.videoUrl && (
+        {detail.data.videoUrl && (
           <div>
             <h2 style={{ fontSize: "var(--font-size-h2)" }}>Video</h2>
             <iframe
               width="100%"
               height="300"
-              src={getYoutubeEmbedUrl(translations.videoUrl)}
-              title={translations.name}
+              src={getYoutubeEmbedUrl(detail.data.videoUrl)}
+              title={detail.data.name}
               style={{ borderRadius: 8 }}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
@@ -186,18 +189,21 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
 export async function generateMetadata({ params }: { params: Promise<{ country: string; slug: string }> }): Promise<Metadata> {
   const { country, slug } = await params;
-  const product = catalog.products.find((p) => p.slug === slug);
-
-  if (!product) {
+  if (!isSupportedCountry(country)) {
     return { title: "Producto no encontrado" };
   }
 
-  const countryData = product.countries[country as keyof typeof product.countries] ?? product.countries.pe;
-  const translations = countryData.translations.es;
+  const response = await getCatalogProductDetailBySlug(country, slug, "es");
 
-  const title = translations.seo?.title ?? translations.name;
-  const description = translations.seo?.description ?? translations.shortDescription ?? (translations.intro ? translations.intro.slice(0, 160) : undefined);
-  const image = translations.seo?.ogImage ?? countryData.heroImage;
+  if (!response) {
+    return { title: "Producto no encontrado" };
+  }
+
+  const { detail } = response;
+
+  const title = detail.data.seoTitle ?? detail.data.name;
+  const description = detail.data.seoDescription ?? detail.data.shortDescription ?? (detail.data.intro ? detail.data.intro.slice(0, 160) : undefined);
+  const image = detail.data.seoOgImage ?? detail.data.heroImage ?? undefined;
 
   return {
     title,
@@ -206,7 +212,7 @@ export async function generateMetadata({ params }: { params: Promise<{ country: 
       ? {
           title,
           description,
-          images: [`/${image}`],
+          images: [image],
         }
       : undefined,
   };

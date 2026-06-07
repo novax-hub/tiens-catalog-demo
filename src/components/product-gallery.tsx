@@ -103,7 +103,7 @@ export function ProductGallery({
           }}
         >
           <img
-            src={`/${currentImage}`}
+            src={currentImage}
             alt={productName}
             style={{
               width: '100%',
@@ -140,7 +140,7 @@ export function ProductGallery({
                 }}
               >
                 <img
-                  src={`/${img}`}
+                  src={img}
                   alt={`${productName} ${idx + 1}`}
                   style={{
                     width: '100%',
