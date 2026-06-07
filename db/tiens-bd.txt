@@ -1,0 +1,864 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 17.2
+-- Dumped by pg_dump version 17.2
+
+-- Started on 2026-05-31 08:33:50
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 221 (class 1259 OID 30937)
+-- Name: app_user; Type: TABLE; Schema: public; Owner: tiens_app
+--
+
+CREATE TABLE public.app_user (
+    id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    name character varying(150) NOT NULL,
+    email character varying(150) NOT NULL,
+    password text NOT NULL,
+    role character varying(20) NOT NULL,
+    is_active boolean DEFAULT true,
+    created_at timestamp without time zone DEFAULT now(),
+    updated_at timestamp without time zone DEFAULT now(),
+    last_login_at timestamp without time zone,
+    CONSTRAINT app_user_role_check CHECK (((role)::text = ANY ((ARRAY['SUPER_ADMIN'::character varying, 'ADMIN'::character varying, 'EDITOR'::character varying, 'ASSISTANT'::character varying])::text[])))
+);
+
+
+ALTER TABLE public.app_user OWNER TO tiens_app;
+
+--
+-- TOC entry 230 (class 1259 OID 31227)
+-- Name: app_user_country_access; Type: TABLE; Schema: public; Owner: tiens_app
+--
+
+CREATE TABLE public.app_user_country_access (
+    user_id uuid NOT NULL,
+    country_id uuid NOT NULL,
+    is_active boolean DEFAULT true,
+    created_at timestamp without time zone DEFAULT now(),
+    updated_at timestamp without time zone DEFAULT now()
+);
+
+
+ALTER TABLE public.app_user_country_access OWNER TO tiens_app;
+
+--
+-- TOC entry 226 (class 1259 OID 31026)
+-- Name: category; Type: TABLE; Schema: public; Owner: tiens_app
+--
+
+CREATE TABLE public.category (
+    id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    name character varying(150) NOT NULL,
+    slug character varying(150),
+    is_active boolean DEFAULT true
+);
+
+
+ALTER TABLE public.category OWNER TO tiens_app;
+
+--
+-- TOC entry 219 (class 1259 OID 30918)
+-- Name: country; Type: TABLE; Schema: public; Owner: tiens_app
+--
+
+CREATE TABLE public.country (
+    id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    code character varying(5) NOT NULL,
+    name character varying(100) NOT NULL,
+    currency_code character varying(10) NOT NULL,
+    is_active boolean DEFAULT true,
+    created_at timestamp without time zone DEFAULT now()
+);
+
+
+ALTER TABLE public.country OWNER TO tiens_app;
+
+--
+-- TOC entry 229 (class 1259 OID 31070)
+-- Name: event; Type: TABLE; Schema: public; Owner: tiens_app
+--
+
+CREATE TABLE public.event (
+    id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    event_type character varying(50) NOT NULL,
+    product_id uuid,
+    country_code character varying(5),
+    payload jsonb,
+    created_at timestamp without time zone DEFAULT now()
+);
+
+
+ALTER TABLE public.event OWNER TO tiens_app;
+
+--
+-- TOC entry 220 (class 1259 OID 30928)
+-- Name: language; Type: TABLE; Schema: public; Owner: tiens_app
+--
+
+CREATE TABLE public.language (
+    id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    code character varying(5) NOT NULL,
+    name character varying(50) NOT NULL,
+    is_active boolean DEFAULT true
+);
+
+
+ALTER TABLE public.language OWNER TO tiens_app;
+
+--
+-- TOC entry 222 (class 1259 OID 30951)
+-- Name: product; Type: TABLE; Schema: public; Owner: tiens_app
+--
+
+CREATE TABLE public.product (
+    id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    sku character varying(100) NOT NULL,
+    is_active boolean DEFAULT true,
+    created_at timestamp without time zone DEFAULT now(),
+    updated_at timestamp without time zone DEFAULT now()
+);
+
+
+ALTER TABLE public.product OWNER TO tiens_app;
+
+--
+-- TOC entry 227 (class 1259 OID 31035)
+-- Name: product_category; Type: TABLE; Schema: public; Owner: tiens_app
+--
+
+CREATE TABLE public.product_category (
+    product_country_id uuid NOT NULL,
+    category_id uuid NOT NULL
+);
+
+
+ALTER TABLE public.product_category OWNER TO tiens_app;
+
+--
+-- TOC entry 223 (class 1259 OID 30962)
+-- Name: product_country; Type: TABLE; Schema: public; Owner: tiens_app
+--
+
+CREATE TABLE public.product_country (
+    id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    product_id uuid NOT NULL,
+    country_id uuid NOT NULL,
+    slug character varying(180) NOT NULL,
+    price numeric(10,2) NOT NULL,
+    currency character varying(10) NOT NULL,
+    ecommerce_url text NOT NULL,
+    ecommerce_external_id character varying(120),
+    is_active boolean DEFAULT true,
+    published_at timestamp without time zone,
+    created_at timestamp without time zone DEFAULT now(),
+    updated_at timestamp without time zone DEFAULT now(),
+    CONSTRAINT ck_product_country_currency CHECK (((char_length((currency)::text) >= 3) AND (char_length((currency)::text) <= 10))),
+    CONSTRAINT ck_product_country_price CHECK ((price > (0)::numeric)),
+    CONSTRAINT ck_product_country_url CHECK ((ecommerce_url ~~ 'https://%'::text))
+);
+
+
+ALTER TABLE public.product_country OWNER TO tiens_app;
+
+--
+-- TOC entry 225 (class 1259 OID 31010)
+-- Name: product_image; Type: TABLE; Schema: public; Owner: tiens_app
+--
+
+CREATE TABLE public.product_image (
+    id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    product_country_id uuid NOT NULL,
+    url text NOT NULL,
+    sort_order integer DEFAULT 0,
+    alt_text character varying(255),
+    is_primary boolean DEFAULT false,
+    created_at timestamp without time zone DEFAULT now()
+);
+
+
+ALTER TABLE public.product_image OWNER TO tiens_app;
+
+--
+-- TOC entry 228 (class 1259 OID 31050)
+-- Name: product_relation; Type: TABLE; Schema: public; Owner: tiens_app
+--
+
+CREATE TABLE public.product_relation (
+    id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    product_country_id uuid NOT NULL,
+    related_product_country_id uuid NOT NULL,
+    relation_type character varying(50) DEFAULT 'related'::character varying,
+    created_at timestamp without time zone DEFAULT now()
+);
+
+
+ALTER TABLE public.product_relation OWNER TO tiens_app;
+
+--
+-- TOC entry 224 (class 1259 OID 30990)
+-- Name: product_translation; Type: TABLE; Schema: public; Owner: tiens_app
+--
+
+CREATE TABLE public.product_translation (
+    id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    product_country_id uuid NOT NULL,
+    language_id uuid NOT NULL,
+    name character varying(255) NOT NULL,
+    short_description text,
+    long_description text,
+    intro text,
+    benefits jsonb,
+    applications jsonb,
+    usage jsonb,
+    restrictions jsonb,
+    recommendations jsonb,
+    technical_info jsonb,
+    cta_label character varying(100),
+    seo_title character varying(255),
+    seo_description text,
+    seo_og_image text,
+    video_url text,
+    features jsonb
+);
+
+
+ALTER TABLE public.product_translation OWNER TO tiens_app;
+
+--
+-- TOC entry 4967 (class 0 OID 30937)
+-- Dependencies: 221
+-- Data for Name: app_user; Type: TABLE DATA; Schema: public; Owner: tiens_app
+--
+
+INSERT INTO public.app_user VALUES ('82f94e04-2836-480c-979f-d21d891136a0', 'Editor PerÃº', 'editor.pe@local.test', '$2a$06$tV/jVehtUTD7vytKBpx.yuf6yIBSG88lsBVpudARh17cmw2vsER/y', 'EDITOR', true, '2026-05-27 00:22:51.876683', '2026-05-27 00:34:53.003351', NULL);
+INSERT INTO public.app_user VALUES ('335d1bd0-378f-4dda-aeef-047544d1bbd9', 'Editor Ecuador', 'editor.ec@local.test', '$2a$06$EZCIt9wvpo7ps.a.U67kDO0828hg/a8GwBoaj5enZvN5WRAM5k41O', 'EDITOR', true, '2026-05-27 00:22:51.876683', '2026-05-27 00:34:53.003351', NULL);
+INSERT INTO public.app_user VALUES ('f667c8c7-a34d-4079-b7fc-924dbd0362b8', 'Assistant PerÃº', 'assistant.pe@local.test', '$2a$06$h7iGPN43uZROohBUNZGBPu0CAT/LayZZJv0PsnRUQpp5zuScATa4O', 'ASSISTANT', true, '2026-05-27 00:22:51.876683', '2026-05-27 00:34:53.003351', NULL);
+INSERT INTO public.app_user VALUES ('3eec6f62-0972-4888-977e-5dc63fcd0e03', 'Assistant Ecuador', 'assistant.ec@local.test', '$2a$06$5/KlRgtkrndAR.ixeMGAGuUpt9s2grEMkq8cSJqzKQ7RnNam7ZoP2', 'ASSISTANT', true, '2026-05-27 00:22:51.876683', '2026-05-27 00:34:53.003351', NULL);
+INSERT INTO public.app_user VALUES ('650db5b4-93d4-4ab4-96b2-6452173ef343', 'Admin Ecuador', 'admin.ec@local.test', '$2a$06$1Qot6x7atvBGaYoG654plevvYgLlJG5.kOJR1z1wlAphzuvCXEVdW', 'ADMIN', true, '2026-05-27 00:22:51.876683', '2026-05-27 15:10:05.004191', '2026-05-27 15:10:05.004191');
+INSERT INTO public.app_user VALUES ('fbfd7df6-4322-49dc-9286-0db00b1baa99', 'Admin PerÃº', 'admin.pe@local.test', '$2a$06$/kmL99vmHB8SRBiXA0ava.vVCtL45dIo0ji9hbmsvfEtVrFu2qUAm', 'ADMIN', true, '2026-05-27 00:22:51.876683', '2026-05-28 07:29:00.418752', '2026-05-28 07:29:00.418752');
+INSERT INTO public.app_user VALUES ('30df91fb-321f-484c-a095-afe5ebc1d42c', 'Super Admin', 'super@local.test', '$2a$06$mP42luGXzaPygWDcUzvzM.UIfIRh/9NAowBvDTdg0IlKT2GSv3.oW', 'SUPER_ADMIN', true, '2026-05-27 00:22:51.876683', '2026-05-30 20:33:09.984404', '2026-05-30 20:33:09.984404');
+
+
+--
+-- TOC entry 4976 (class 0 OID 31227)
+-- Dependencies: 230
+-- Data for Name: app_user_country_access; Type: TABLE DATA; Schema: public; Owner: tiens_app
+--
+
+INSERT INTO public.app_user_country_access VALUES ('fbfd7df6-4322-49dc-9286-0db00b1baa99', '2fa0524e-721c-45fc-b0ca-acca1c5ef2dc', true, '2026-05-27 00:41:28.454472', '2026-05-27 00:41:28.454472');
+INSERT INTO public.app_user_country_access VALUES ('82f94e04-2836-480c-979f-d21d891136a0', '2fa0524e-721c-45fc-b0ca-acca1c5ef2dc', true, '2026-05-27 00:41:28.454472', '2026-05-27 00:41:28.454472');
+INSERT INTO public.app_user_country_access VALUES ('f667c8c7-a34d-4079-b7fc-924dbd0362b8', '2fa0524e-721c-45fc-b0ca-acca1c5ef2dc', true, '2026-05-27 00:41:28.454472', '2026-05-27 00:41:28.454472');
+INSERT INTO public.app_user_country_access VALUES ('650db5b4-93d4-4ab4-96b2-6452173ef343', '8d7a0665-3931-406b-af4d-1cb558493300', true, '2026-05-27 00:41:28.454472', '2026-05-27 00:41:28.454472');
+INSERT INTO public.app_user_country_access VALUES ('335d1bd0-378f-4dda-aeef-047544d1bbd9', '8d7a0665-3931-406b-af4d-1cb558493300', true, '2026-05-27 00:41:28.454472', '2026-05-27 00:41:28.454472');
+INSERT INTO public.app_user_country_access VALUES ('3eec6f62-0972-4888-977e-5dc63fcd0e03', '8d7a0665-3931-406b-af4d-1cb558493300', true, '2026-05-27 00:41:28.454472', '2026-05-27 00:41:28.454472');
+
+
+--
+-- TOC entry 4972 (class 0 OID 31026)
+-- Dependencies: 226
+-- Data for Name: category; Type: TABLE DATA; Schema: public; Owner: tiens_app
+--
+
+
+
+--
+-- TOC entry 4965 (class 0 OID 30918)
+-- Dependencies: 219
+-- Data for Name: country; Type: TABLE DATA; Schema: public; Owner: tiens_app
+--
+
+INSERT INTO public.country VALUES ('2fa0524e-721c-45fc-b0ca-acca1c5ef2dc', 'pe', 'PerÃº', 'PEN', true, '2026-05-27 00:19:02.759904');
+INSERT INTO public.country VALUES ('8d7a0665-3931-406b-af4d-1cb558493300', 'ec', 'Ecuador', 'USD', true, '2026-05-27 00:19:02.759904');
+INSERT INTO public.country VALUES ('a7a062a3-966e-4534-b442-247fc58fb1a3', 'bo', 'Bolivia', 'BOB', true, '2026-05-27 00:19:02.759904');
+INSERT INTO public.country VALUES ('04c07646-eb65-477b-9e39-d6696c3ca6df', 'co', 'Colombia', 'COP', true, '2026-05-27 00:19:02.759904');
+INSERT INTO public.country VALUES ('31c6814a-ea6c-4d3e-af08-5ff45d787028', 'mx', 'MÃ©xico', 'MXN', true, '2026-05-27 00:19:02.759904');
+INSERT INTO public.country VALUES ('89f3ee23-9bf2-428d-a2e5-f35b3bcdd2c1', 'br', 'Brasil', 'BRL', true, '2026-05-27 00:19:02.759904');
+INSERT INTO public.country VALUES ('32785a5b-0014-46da-904d-faf4ea10bce9', 'ar', 'Argentina', 'ARS', true, '2026-05-27 00:19:02.759904');
+INSERT INTO public.country VALUES ('8caf4b1d-4438-4cb2-b152-ed0fda32666a', 'pa', 'PanamÃ¡', 'PAB', true, '2026-05-27 00:19:02.759904');
+INSERT INTO public.country VALUES ('2c47fc41-a0f2-4268-9879-e77c9ec49633', 'us', 'Estados Unidos', 'USD', true, '2026-05-27 00:19:02.759904');
+INSERT INTO public.country VALUES ('f93a50e3-b61a-4870-b987-5c82f9e83f81', 've', 'Venezuela', 'VES', true, '2026-05-27 00:19:02.759904');
+
+
+--
+-- TOC entry 4975 (class 0 OID 31070)
+-- Dependencies: 229
+-- Data for Name: event; Type: TABLE DATA; Schema: public; Owner: tiens_app
+--
+
+
+
+--
+-- TOC entry 4966 (class 0 OID 30928)
+-- Dependencies: 220
+-- Data for Name: language; Type: TABLE DATA; Schema: public; Owner: tiens_app
+--
+
+INSERT INTO public.language VALUES ('1a72f508-ad31-471b-a8af-002582213656', 'es', 'EspaÃ±ol', true);
+
+
+--
+-- TOC entry 4968 (class 0 OID 30951)
+-- Dependencies: 222
+-- Data for Name: product; Type: TABLE DATA; Schema: public; Owner: tiens_app
+--
+
+INSERT INTO public.product VALUES ('0d841ba8-d568-4edf-b670-73aec658f960', 'F17', true, '2026-05-27 05:48:24.327217', '2026-05-27 05:48:48.483679');
+INSERT INTO public.product VALUES ('179f79a7-e00c-4bd8-b104-f0a2ad79d8cc', 'A07', true, '2026-05-27 05:48:24.350324', '2026-05-27 05:48:48.50175');
+INSERT INTO public.product VALUES ('7c24f05e-e9ab-4ed5-898e-19dd2b20f665', 'A05', true, '2026-05-27 05:48:48.51658', '2026-05-27 05:48:48.51658');
+INSERT INTO public.product VALUES ('6fa066ed-104e-48c1-be63-5b484c67df7f', 'A39', true, '2026-05-27 05:48:48.531807', '2026-05-27 05:48:48.531807');
+INSERT INTO public.product VALUES ('cad88504-44bc-4949-aac9-e682c495e499', 'A94', true, '2026-05-27 05:48:48.54777', '2026-05-27 05:48:48.54777');
+INSERT INTO public.product VALUES ('ccb7f1c1-ed76-4fd1-b901-15993c2a21c6', 'A01', true, '2026-05-27 05:48:48.561035', '2026-05-27 05:48:48.561035');
+INSERT INTO public.product VALUES ('aa7fc7af-96d9-4127-8b77-dbcb2fc153ad', 'A93', true, '2026-05-27 05:48:48.573908', '2026-05-27 05:48:48.573908');
+INSERT INTO public.product VALUES ('fa24e557-2913-48f3-a25a-919338e6a89b', 'F18', true, '2026-05-27 05:48:48.589493', '2026-05-27 05:48:48.589493');
+INSERT INTO public.product VALUES ('2ac12f0b-dc17-40db-bdca-4640cd8c7395', 'A75', true, '2026-05-27 05:48:48.602466', '2026-05-27 05:48:48.602466');
+INSERT INTO public.product VALUES ('f67115dd-83c2-445d-bfb2-89c622803088', 'CSSKECO008', true, '2026-05-27 05:48:48.618734', '2026-05-27 05:48:48.618734');
+
+
+--
+-- TOC entry 4973 (class 0 OID 31035)
+-- Dependencies: 227
+-- Data for Name: product_category; Type: TABLE DATA; Schema: public; Owner: tiens_app
+--
+
+
+
+--
+-- TOC entry 4969 (class 0 OID 30962)
+-- Dependencies: 223
+-- Data for Name: product_country; Type: TABLE DATA; Schema: public; Owner: tiens_app
+--
+
+INSERT INTO public.product_country VALUES ('3aee2b2e-7896-4901-a1dd-94b20a0a2bc4', '0d841ba8-d568-4edf-b670-73aec658f960', '2fa0524e-721c-45fc-b0ca-acca1c5ef2dc', 'set-toallas-higienicas-airiz', 74.05, 'PEN', 'https://example.com/products/F17', NULL, true, NULL, '2026-05-27 05:48:24.327217', '2026-05-27 05:48:48.483679');
+INSERT INTO public.product_country VALUES ('ea1fa70e-32c7-4a00-a2fc-d72f6378cd9e', '179f79a7-e00c-4bd8-b104-f0a2ad79d8cc', '2fa0524e-721c-45fc-b0ca-acca1c5ef2dc', 'capsula-de-chitosa', 177.84, 'PEN', 'https://example.com/products/A07', NULL, true, NULL, '2026-05-27 05:48:24.350324', '2026-05-27 05:48:48.50175');
+INSERT INTO public.product_country VALUES ('5ff53785-3cef-49c6-8dd3-ec49ac7c8f16', '7c24f05e-e9ab-4ed5-898e-19dd2b20f665', '2fa0524e-721c-45fc-b0ca-acca1c5ef2dc', 'te-antilipido-de-tianshi', 82.47, 'PEN', 'https://example.com/products/A05', NULL, true, NULL, '2026-05-27 05:48:48.51658', '2026-05-27 05:48:48.51658');
+INSERT INTO public.product_country VALUES ('1a7e52dd-f62c-417d-a519-ee64c930105c', '6fa066ed-104e-48c1-be63-5b484c67df7f', '2fa0524e-721c-45fc-b0ca-acca1c5ef2dc', 'te-reductor-de-peso', 82.47, 'PEN', 'https://example.com/products/A39', NULL, true, NULL, '2026-05-27 05:48:48.531807', '2026-05-27 05:48:48.531807');
+INSERT INTO public.product_country VALUES ('46799374-8528-485b-b527-8e0ce5469f9c', 'cad88504-44bc-4949-aac9-e682c495e499', '2fa0524e-721c-45fc-b0ca-acca1c5ef2dc', 'tiens-fe-folic', 93.13, 'PEN', 'https://example.com/products/A94', NULL, true, NULL, '2026-05-27 05:48:48.54777', '2026-05-27 05:48:48.54777');
+INSERT INTO public.product_country VALUES ('5fb9a952-281a-4ab1-b185-1e4578037ce5', 'ccb7f1c1-ed76-4fd1-b901-15993c2a21c6', '2fa0524e-721c-45fc-b0ca-acca1c5ef2dc', 'viokal', 82.47, 'PEN', 'https://example.com/products/A01', NULL, true, NULL, '2026-05-27 05:48:48.561035', '2026-05-27 05:48:48.561035');
+INSERT INTO public.product_country VALUES ('42f040f5-1e6a-457d-bab8-046578155f6f', 'aa7fc7af-96d9-4127-8b77-dbcb2fc153ad', '2fa0524e-721c-45fc-b0ca-acca1c5ef2dc', 'tiens-colageno-forte-gingseng', 131.27, 'PEN', 'https://example.com/products/A93', NULL, true, NULL, '2026-05-27 05:48:48.573908', '2026-05-27 05:48:48.573908');
+INSERT INTO public.product_country VALUES ('fb8b39c4-2e22-42a7-92d4-d65bf20616a8', 'fa24e557-2913-48f3-a25a-919338e6a89b', '2fa0524e-721c-45fc-b0ca-acca1c5ef2dc', 'pasta-dental-herbal-orecare', 30.86, 'PEN', 'https://example.com/products/F18', NULL, true, NULL, '2026-05-27 05:48:48.589493', '2026-05-27 05:48:48.589493');
+INSERT INTO public.product_country VALUES ('5a40dd29-0941-41ee-93ce-322465088e14', '2ac12f0b-dc17-40db-bdca-4640cd8c7395', '2fa0524e-721c-45fc-b0ca-acca1c5ef2dc', 'tiens-cordycafe', 59.47, 'PEN', 'https://example.com/products/A75', NULL, true, NULL, '2026-05-27 05:48:48.602466', '2026-05-27 05:48:48.602466');
+INSERT INTO public.product_country VALUES ('060ddb56-30dc-4114-9701-cae7309fd9ab', 'f67115dd-83c2-445d-bfb2-89c622803088', '2fa0524e-721c-45fc-b0ca-acca1c5ef2dc', 'green-bubble-cleanser', 72.93, 'PEN', 'https://example.com/products/CSSKECO008', NULL, true, NULL, '2026-05-27 05:48:48.618734', '2026-05-27 05:48:48.618734');
+
+
+--
+-- TOC entry 4971 (class 0 OID 31010)
+-- Dependencies: 225
+-- Data for Name: product_image; Type: TABLE DATA; Schema: public; Owner: tiens_app
+--
+
+INSERT INTO public.product_image VALUES ('da1e150b-cf55-408b-8838-36703ee701fc', 'ea1fa70e-32c7-4a00-a2fc-d72f6378cd9e', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/capsula-de-chitosa/main.webp', 0, 'Capsula de Chitosa', true, '2026-05-27 05:48:48.50175');
+INSERT INTO public.product_image VALUES ('1d2c607d-57eb-4218-9f6b-3c327c03ebcd', 'ea1fa70e-32c7-4a00-a2fc-d72f6378cd9e', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/capsula-de-chitosa/gallery-01.webp', 1, 'Capsula de Chitosa', false, '2026-05-27 05:48:48.50175');
+INSERT INTO public.product_image VALUES ('7d72dfb1-3aa1-4d74-a843-00916e536bd7', 'ea1fa70e-32c7-4a00-a2fc-d72f6378cd9e', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/capsula-de-chitosa/gallery-02.webp', 2, 'Capsula de Chitosa', false, '2026-05-27 05:48:48.50175');
+INSERT INTO public.product_image VALUES ('070e08f5-4d58-4936-8fe8-17c9c1f5a07e', '5ff53785-3cef-49c6-8dd3-ec49ac7c8f16', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/te-antilipido-de-tianshi/main.webp', 0, 'Te Antilípido de Tianshi', true, '2026-05-27 05:48:48.51658');
+INSERT INTO public.product_image VALUES ('45e14a4b-9a01-4802-881a-4a461c6d1f15', '5ff53785-3cef-49c6-8dd3-ec49ac7c8f16', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/te-antilipido-de-tianshi/gallery-01.webp', 1, 'Te Antilípido de Tianshi', false, '2026-05-27 05:48:48.51658');
+INSERT INTO public.product_image VALUES ('da37edd7-b965-4010-8552-98554f6840d6', '5ff53785-3cef-49c6-8dd3-ec49ac7c8f16', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/te-antilipido-de-tianshi/gallery-02.webp', 2, 'Te Antilípido de Tianshi', false, '2026-05-27 05:48:48.51658');
+INSERT INTO public.product_image VALUES ('aaffe2eb-908a-4f96-ad77-672ffc561226', '5ff53785-3cef-49c6-8dd3-ec49ac7c8f16', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/te-antilipido-de-tianshi/gallery-03.webp', 3, 'Te Antilípido de Tianshi', false, '2026-05-27 05:48:48.51658');
+INSERT INTO public.product_image VALUES ('224a496e-c28a-4474-b26d-03e09f0b937a', '1a7e52dd-f62c-417d-a519-ee64c930105c', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/te-reductor-de-peso/main.webp', 0, 'Te Reductor de Peso', true, '2026-05-27 05:48:48.531807');
+INSERT INTO public.product_image VALUES ('75e08228-c84c-4983-a41b-52fdaa38630d', '1a7e52dd-f62c-417d-a519-ee64c930105c', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/te-reductor-de-peso/gallery-01.webp', 1, 'Te Reductor de Peso', false, '2026-05-27 05:48:48.531807');
+INSERT INTO public.product_image VALUES ('7389052c-575b-4cd8-8ab4-ee9482de13df', '1a7e52dd-f62c-417d-a519-ee64c930105c', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/te-reductor-de-peso/gallery-02.webp', 2, 'Te Reductor de Peso', false, '2026-05-27 05:48:48.531807');
+INSERT INTO public.product_image VALUES ('e2619728-2fc6-4de0-acdc-e7977876cac6', '1a7e52dd-f62c-417d-a519-ee64c930105c', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/te-reductor-de-peso/gallery-03.webp', 3, 'Te Reductor de Peso', false, '2026-05-27 05:48:48.531807');
+INSERT INTO public.product_image VALUES ('9710f873-f5f8-43b1-8350-14e6c0b0abc3', '46799374-8528-485b-b527-8e0ce5469f9c', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/tiens-fe-folic/main.webp', 0, 'Tiens Fe Folic', true, '2026-05-27 05:48:48.54777');
+INSERT INTO public.product_image VALUES ('491b9bbb-852e-4ba0-a22a-85c16b896fa1', '46799374-8528-485b-b527-8e0ce5469f9c', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/tiens-fe-folic/gallery-01.webp', 1, 'Tiens Fe Folic', false, '2026-05-27 05:48:48.54777');
+INSERT INTO public.product_image VALUES ('242de6a1-60e8-4785-bfd1-231db419f5e0', '46799374-8528-485b-b527-8e0ce5469f9c', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/tiens-fe-folic/gallery-02.webp', 2, 'Tiens Fe Folic', false, '2026-05-27 05:48:48.54777');
+INSERT INTO public.product_image VALUES ('1697f3c9-3ddd-4573-8d73-b43586c5a0cc', '5fb9a952-281a-4ab1-b185-1e4578037ce5', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/viokal/main.webp', 0, 'Viokal', true, '2026-05-27 05:48:48.561035');
+INSERT INTO public.product_image VALUES ('c04c4f5c-b03c-419b-8912-9fec167cb924', '5fb9a952-281a-4ab1-b185-1e4578037ce5', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/viokal/gallery-01.webp', 1, 'Viokal', false, '2026-05-27 05:48:48.561035');
+INSERT INTO public.product_image VALUES ('f8921b07-af38-4605-af21-b48a59013e9f', '5fb9a952-281a-4ab1-b185-1e4578037ce5', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/viokal/gallery-02.webp', 2, 'Viokal', false, '2026-05-27 05:48:48.561035');
+INSERT INTO public.product_image VALUES ('a40ef0db-c554-4d62-beba-b008ef154470', '5fb9a952-281a-4ab1-b185-1e4578037ce5', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/viokal/gallery-03.webp', 3, 'Viokal', false, '2026-05-27 05:48:48.561035');
+INSERT INTO public.product_image VALUES ('d96ddc9f-1bfd-4e8c-9693-08679b20282c', '42f040f5-1e6a-457d-bab8-046578155f6f', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/tiens-colageno-forte-gingseng/main.webp', 0, 'Tiens Colágeno Forte + Gingseng', true, '2026-05-27 05:48:48.573908');
+INSERT INTO public.product_image VALUES ('99d07d97-2fd5-4ef7-bc52-00d47cac818a', '42f040f5-1e6a-457d-bab8-046578155f6f', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/tiens-colageno-forte-gingseng/gallery-01.webp', 1, 'Tiens Colágeno Forte + Gingseng', false, '2026-05-27 05:48:48.573908');
+INSERT INTO public.product_image VALUES ('1a847bd2-32cd-4ccb-a36d-7d6767ce5013', '42f040f5-1e6a-457d-bab8-046578155f6f', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/tiens-colageno-forte-gingseng/gallery-02.webp', 2, 'Tiens Colágeno Forte + Gingseng', false, '2026-05-27 05:48:48.573908');
+INSERT INTO public.product_image VALUES ('4da903b6-2d10-4489-b2b5-3ea0597f41f9', '42f040f5-1e6a-457d-bab8-046578155f6f', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/tiens-colageno-forte-gingseng/gallery-03.webp', 3, 'Tiens Colágeno Forte + Gingseng', false, '2026-05-27 05:48:48.573908');
+INSERT INTO public.product_image VALUES ('e0bfd28c-3111-4e84-b93e-30502cff4141', 'fb8b39c4-2e22-42a7-92d4-d65bf20616a8', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/pasta-dental-herbal-orecare/main.webp', 0, 'Pasta Dental Herbal Orecare', true, '2026-05-27 05:48:48.589493');
+INSERT INTO public.product_image VALUES ('18385383-a4b7-4c6e-9350-999accaae622', 'fb8b39c4-2e22-42a7-92d4-d65bf20616a8', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/pasta-dental-herbal-orecare/gallery-01.webp', 1, 'Pasta Dental Herbal Orecare', false, '2026-05-27 05:48:48.589493');
+INSERT INTO public.product_image VALUES ('cc71c700-3ab1-4d04-8cb0-a405ec2769e0', 'fb8b39c4-2e22-42a7-92d4-d65bf20616a8', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/pasta-dental-herbal-orecare/gallery-02.webp', 2, 'Pasta Dental Herbal Orecare', false, '2026-05-27 05:48:48.589493');
+INSERT INTO public.product_image VALUES ('c2eaa699-f702-488a-b96e-dd4d4ecdf3a7', '5a40dd29-0941-41ee-93ce-322465088e14', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/tiens-cordycafe/main.webp', 0, 'Tiens Cordycafe', true, '2026-05-27 05:48:48.602466');
+INSERT INTO public.product_image VALUES ('0f9d220f-f243-48ce-8ce5-9fa4722d36e9', '5a40dd29-0941-41ee-93ce-322465088e14', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/tiens-cordycafe/gallery-01.webp', 1, 'Tiens Cordycafe', false, '2026-05-27 05:48:48.602466');
+INSERT INTO public.product_image VALUES ('6e02da84-2737-44d9-bd60-1645576092f8', '3aee2b2e-7896-4901-a1dd-94b20a0a2bc4', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/set-toallas-higienicas-airiz/main.webp', 0, 'Set Toallas Higiénicas Airiz', true, '2026-05-27 05:48:48.483679');
+INSERT INTO public.product_image VALUES ('2d3674d5-6eef-4ff8-9273-9a11a7587788', '3aee2b2e-7896-4901-a1dd-94b20a0a2bc4', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/set-toallas-higienicas-airiz/gallery-03.webp', 1, 'Set Toallas Higiénicas Airiz', false, '2026-05-27 05:48:48.483679');
+INSERT INTO public.product_image VALUES ('818aeec9-1858-403b-821d-ab435cf66bbe', '3aee2b2e-7896-4901-a1dd-94b20a0a2bc4', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/set-toallas-higienicas-airiz/gallery-02.webp', 2, 'Set Toallas Higiénicas Airiz', false, '2026-05-27 05:48:48.483679');
+INSERT INTO public.product_image VALUES ('04bd4bf8-2ba4-4eb0-82fd-79d9bb77076c', '3aee2b2e-7896-4901-a1dd-94b20a0a2bc4', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/set-toallas-higienicas-airiz/gallery-01.webp', 3, 'Set Toallas Higiénicas Airiz', false, '2026-05-27 05:48:48.483679');
+INSERT INTO public.product_image VALUES ('38443d12-37ad-40e0-9273-1dbd11f5af44', '5a40dd29-0941-41ee-93ce-322465088e14', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/tiens-cordycafe/gallery-02.webp', 2, 'Tiens Cordycafe', false, '2026-05-27 05:48:48.602466');
+INSERT INTO public.product_image VALUES ('495ca908-f0e7-4bd6-866b-d87cc7ce231d', '5a40dd29-0941-41ee-93ce-322465088e14', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/tiens-cordycafe/gallery-03.webp', 3, 'Tiens Cordycafe', false, '2026-05-27 05:48:48.602466');
+INSERT INTO public.product_image VALUES ('444e5cbb-d421-48b0-ba9d-9529080e40d7', '060ddb56-30dc-4114-9701-cae7309fd9ab', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/green-bubble-cleanser/main.webp', 0, 'Green Bubble Cleanser', true, '2026-05-27 05:48:48.618734');
+INSERT INTO public.product_image VALUES ('c0619d7e-c128-4a0b-8fe4-6406060a2af0', '060ddb56-30dc-4114-9701-cae7309fd9ab', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/green-bubble-cleanser/gallery-01.webp', 1, 'Green Bubble Cleanser', false, '2026-05-27 05:48:48.618734');
+INSERT INTO public.product_image VALUES ('94e544e8-cd04-4dd1-9a53-e2dda36eb98b', '060ddb56-30dc-4114-9701-cae7309fd9ab', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/green-bubble-cleanser/gallery-02.webp', 2, 'Green Bubble Cleanser', false, '2026-05-27 05:48:48.618734');
+INSERT INTO public.product_image VALUES ('9030d713-e16a-40e3-bfbf-5bd472cc6dae', '060ddb56-30dc-4114-9701-cae7309fd9ab', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/green-bubble-cleanser/gallery-03.webp', 3, 'Green Bubble Cleanser', false, '2026-05-27 05:48:48.618734');
+
+
+--
+-- TOC entry 4974 (class 0 OID 31050)
+-- Dependencies: 228
+-- Data for Name: product_relation; Type: TABLE DATA; Schema: public; Owner: tiens_app
+--
+
+
+
+--
+-- TOC entry 4970 (class 0 OID 30990)
+-- Dependencies: 224
+-- Data for Name: product_translation; Type: TABLE DATA; Schema: public; Owner: tiens_app
+--
+
+INSERT INTO public.product_translation VALUES ('6182ee95-db62-4b73-8b9f-04fc62210751', '3aee2b2e-7896-4901-a1dd-94b20a0a2bc4', '1a72f508-ad31-471b-a8af-002582213656', 'Set Toallas Higiénicas Airiz', 'Set de toallas higiénicas Airiz con algodón suave, oxígeno activo e iones negativos para una protección diaria cómoda y segura.', 'Las toallas higiénicas Airiz combinan algodón suave con tecnología de oxígeno activo e iones negativos, lo que contribuye a una mejor oxigenación y cuidado durante su uso.
+
+El set incluye diferentes presentaciones adaptadas a cada momento del día, facilitando una protección continua y adecuada.', 'El cuidado íntimo diario requiere productos que brinden seguridad, comodidad y confianza en cada momento. El Set de Toallas Higiénicas Airiz está diseñado con algodón suave y tecnología de oxígeno activo e ion negativo, ofreciendo una alternativa pensada para acompañar la rutina femenina con mayor bienestar.
+
+Su composición busca mantener un equilibrio adecuado, ayudando a proteger frente a agentes externos, mientras brinda una experiencia de uso cómoda tanto de día como de noche.', '["Buena absorción de líquidos", "Diseño ultra delgado y cómodo", "Permite una mejor permeabilidad y ventilación", "Contribuye a mantener una sensación de frescura", "Tecnología con oxígeno activo e ion negativo", "Uso práctico según el momento del día"]', '["Durante el día (toallas diurnas)", "Durante la noche (mayor protección)", "Uso diario (protectores)", "Rutina de higiene íntima"]', '["Seleccionar el tipo de toalla según el momento (día, noche o protector diario)", "Retirar el adhesivo y colocar sobre la ropa interior", "Ajustar correctamente para mayor comodidad", "Cambiar según el tiempo recomendado de uso"]', '["No exceder el tiempo recomendado de uso", "Seguir las indicaciones de uso de cada componente", "Suspender el uso ante cualquier reacción desfavorable", "En caso de anomalía, consultar con un especialista"]', '["Mujeres en etapa menstrual", "Uso diario como protección adicional", "Personas que buscan mayor comodidad y frescura", "Diferentes momentos del ciclo (día y noche)"]', '{"marca": "Airiz", "material": "Algodón suave", "contenido": "3 paquetes de toallas de día 1 paquete de toallas de noche 2 paquetes de protectores diarios", "presentacion": "Set de paquetes", "tipo-de-producto": "Toallas Higiénicas"}', 'Comprar ahora', 'Set Toallas Higiénicas Airiz | Tiens Peru', 'Set de toallas higiénicas Airiz con algodón suave, oxígeno activo e iones negativos para una protección diaria cómoda y segura.', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/set-toallas-higienicas-airiz/main.webp', 'https://youtu.be/naBw8hFQTAk?si=NLKK6t5ov_ng5nyN', '{"usage": ["Seleccionar el tipo de toalla según el momento (día, noche o protector diario)", "Retirar el adhesivo y colocar sobre la ropa interior", "Ajustar correctamente para mayor comodidad", "Cambiar según el tiempo recomendado de uso"], "benefits": ["Buena absorción de líquidos", "Diseño ultra delgado y cómodo", "Permite una mejor permeabilidad y ventilación", "Contribuye a mantener una sensación de frescura", "Tecnología con oxígeno activo e ion negativo", "Uso práctico según el momento del día"], "applications": ["Durante el día (toallas diurnas)", "Durante la noche (mayor protección)", "Uso diario (protectores)", "Rutina de higiene íntima"], "restrictions": ["No exceder el tiempo recomendado de uso", "Seguir las indicaciones de uso de cada componente", "Suspender el uso ante cualquier reacción desfavorable", "En caso de anomalía, consultar con un especialista"], "technicalInfo": {"marca": "Airiz", "material": "Algodón suave", "contenido": "3 paquetes de toallas de día 1 paquete de toallas de noche 2 paquetes de protectores diarios", "presentacion": "Set de paquetes", "tipo-de-producto": "Toallas Higiénicas"}, "recommendations": ["Mujeres en etapa menstrual", "Uso diario como protección adicional", "Personas que buscan mayor comodidad y frescura", "Diferentes momentos del ciclo (día y noche)"]}');
+INSERT INTO public.product_translation VALUES ('15c2af29-d0da-4e5c-ba79-2546940f6d83', 'ea1fa70e-32c7-4a00-a2fc-d72f6378cd9e', '1a72f508-ad31-471b-a8af-002582213656', 'Capsula de Chitosa', 'Cápsulas de quitosano que apoyan el control de grasas y azúcares, contribuyendo a una rutina de bienestar y manejo de peso.', 'La Cápsula de Chitosa es un suplemento elaborado a base de quitosano, un componente derivado de la quitina presente en los caparazones de crustáceos. Gracias a su alta pureza y grado de desacetilación, está diseñado para complementar rutinas orientadas al bienestar digestivo, control de peso y equilibrio metabólico.
+
+El quitosano es reconocido por su capacidad de interactuar con grasas dentro del tracto digestivo, contribuyendo a reducir su absorción y apoyando procesos de manejo de peso. Además, puede colaborar en la eliminación de toxinas, promoviendo una sensación general de bienestar.
+
+Su uso constante, acompañado de una alimentación saludable y actividad física, puede convertirse en un excelente complemento para quienes buscan mejorar sus hábitos diarios.', 'En la búsqueda de una alimentación equilibrada y hábitos saludables, muchas personas buscan aliados prácticos que complementen su rutina diaria. La Cápsula de Chitosa se presenta como una alternativa orientada al bienestar digestivo y al control de peso.
+
+Gracias a su composición a base de quitosano, puede integrarse dentro de programas nutricionales y estilos de vida enfocados en mejorar el equilibrio del organismo.', '["Contribuye a reducir la absorción de grasas", "Apoya rutinas orientadas al control de peso", "Favorece el equilibrio del metabolismo de azúcares", "Puede apoyar la circulación", "Complementa procesos de limpieza digestiva", "Ayuda a mantener hábitos saludables de bienestar"]', '["Dietas de reducción de peso", "Rutinas de control alimenticio", "Programas de bienestar digestivo", "Estilos de vida saludables"]', '["Tomar de 1 a 3 cápsulas", "Consumir entre 30 minutos y 1 hora antes de las comidas", "Acompañar con agua tibia", "Mantener una adecuada hidratación diaria"]', '["No consumir en caso de alergia a mariscos", "Puede causar estreñimiento si no se bebe suficiente agua", "Mantener un intervalo mínimo de 2 horas con otros suplementos", "No recomendado para niños, lactantes o embarazadas con mala absorción intestinal"]', '["Adultos que buscan complementar su control de peso", "Personas enfocadas en bienestar digestivo", "Usuarios con hábitos de alimentación equilibrada", "Combinable con Té Tianshi y Té Milenario"]', '{"presentacion": "100 cápsulas x 0.15 g", "tipo-de-producto": "Suplemento alimenticio", "ingrediente-principal": "Quitosano"}', 'Comprar ahora', 'Capsula de Chitosa | Tiens Peru', 'Cápsulas de quitosano que apoyan el control de grasas y azúcares, contribuyendo a una rutina de bienestar y manejo de peso.', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/capsula-de-chitosa/main.webp', 'https://youtu.be/T30UzfSx1RY?si=sxzAZ02HgVtL8bku', '{"usage": ["Tomar de 1 a 3 cápsulas", "Consumir entre 30 minutos y 1 hora antes de las comidas", "Acompañar con agua tibia", "Mantener una adecuada hidratación diaria"], "benefits": ["Contribuye a reducir la absorción de grasas", "Apoya rutinas orientadas al control de peso", "Favorece el equilibrio del metabolismo de azúcares", "Puede apoyar la circulación", "Complementa procesos de limpieza digestiva", "Ayuda a mantener hábitos saludables de bienestar"], "applications": ["Dietas de reducción de peso", "Rutinas de control alimenticio", "Programas de bienestar digestivo", "Estilos de vida saludables"], "restrictions": ["No consumir en caso de alergia a mariscos", "Puede causar estreñimiento si no se bebe suficiente agua", "Mantener un intervalo mínimo de 2 horas con otros suplementos", "No recomendado para niños, lactantes o embarazadas con mala absorción intestinal"], "technicalInfo": {"presentacion": "100 cápsulas x 0.15 g", "tipo-de-producto": "Suplemento alimenticio", "ingrediente-principal": "Quitosano"}, "recommendations": ["Adultos que buscan complementar su control de peso", "Personas enfocadas en bienestar digestivo", "Usuarios con hábitos de alimentación equilibrada", "Combinable con Té Tianshi y Té Milenario"]}');
+INSERT INTO public.product_translation VALUES ('c44c4b44-c5da-4e2d-a67b-e06bb61bfbb0', '5ff53785-3cef-49c6-8dd3-ec49ac7c8f16', '1a72f508-ad31-471b-a8af-002582213656', 'Te Antilípido de Tianshi', 'Té herbal detox que ayuda a limpiar el organismo, apoyar la digestión y complementar rutinas de bienestar diario.', 'El Té Tianshi es una infusión elaborada a base de una selección de cinco hierbas tradicionales: ginostema, hoja de loto, té verde, flor buddleja y ruibarbo. Esta combinación ha sido desarrollada para acompañar procesos de limpieza interna, digestión y equilibrio general del organismo.
+
+Su fórmula reúne ingredientes conocidos por sus propiedades naturales, ayudando al cuerpo a optimizar la eliminación de toxinas, apoyar la regulación digestiva y complementar hábitos orientados al bienestar integral.
+
+Consumido dentro de una rutina saludable, puede convertirse en una excelente alternativa para quienes desean sentirse más ligeros, mejorar sus hábitos diarios y apoyar su bienestar general.', 'El ritmo de vida actual, la alimentación desordenada y el estrés diario pueden afectar el equilibrio del organismo. Muchas personas buscan alternativas naturales que acompañen procesos de limpieza interna y bienestar general.
+
+El Té Antilípido de Tianshi combina hierbas tradicionales utilizadas por generaciones, creando una bebida pensada para complementar rutinas saludables y apoyar el funcionamiento natural del cuerpo.', '["Ayuda a procesos naturales de limpieza interna", "Complementa rutinas detox y de bienestar", "Apoya la digestión y regulación intestinal", "Contribuye al equilibrio del metabolismo de grasas", "Aporta antioxidantes naturales", "Favorece hábitos saludables diarios"]', '["Dietas de reducción de peso", "Rutinas detox naturales", "Programas de bienestar digestivo", "Estilos de vida saludables"]', '["Colocar 1 sobre en una taza con agua caliente", "Dejar reposar durante 10 minutos", "Consumir tibio o caliente", "Tomar de 1 a 2 sobres al día según preferencia"]', '["Personas sensibles a sus componentes podrían presentar reacciones alérgicas", "En caso de embarazo o lactancia, consultar con un especialista", "Recomendado para mayores de 18 años", "Conservar en lugar fresco y seco entre 15°C y 25°C"]', '["Adultos que buscan una bebida detox natural", "Personas enfocadas en bienestar digestivo", "Usuarios con hábitos saludables", "Combinable con suplementos Tianshi en cápsulas o tabletas"]', '{"marca": "Tianshi", "contenido": "40 bolsitas x 1.5g", "presentacion": "Sobre filtrantes", "tipo-de-producto": "Infusión herbal funcional", "componentes-principales": "Ginostema, hoja de loto, té verde, flor buddleja y ruibarbo"}', 'Comprar ahora', 'Te Antilípido de Tianshi | Tiens Peru', 'Té herbal detox que ayuda a limpiar el organismo, apoyar la digestión y complementar rutinas de bienestar diario.', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/te-antilipido-de-tianshi/main.webp', 'https://youtu.be/J057soUK0SM?si=DgMczB8rIK5WWq4H', '{"usage": ["Colocar 1 sobre en una taza con agua caliente", "Dejar reposar durante 10 minutos", "Consumir tibio o caliente", "Tomar de 1 a 2 sobres al día según preferencia"], "benefits": ["Ayuda a procesos naturales de limpieza interna", "Complementa rutinas detox y de bienestar", "Apoya la digestión y regulación intestinal", "Contribuye al equilibrio del metabolismo de grasas", "Aporta antioxidantes naturales", "Favorece hábitos saludables diarios"], "applications": ["Dietas de reducción de peso", "Rutinas detox naturales", "Programas de bienestar digestivo", "Estilos de vida saludables"], "restrictions": ["Personas sensibles a sus componentes podrían presentar reacciones alérgicas", "En caso de embarazo o lactancia, consultar con un especialista", "Recomendado para mayores de 18 años", "Conservar en lugar fresco y seco entre 15°C y 25°C"], "technicalInfo": {"marca": "Tianshi", "contenido": "40 bolsitas x 1.5g", "presentacion": "Sobre filtrantes", "tipo-de-producto": "Infusión herbal funcional", "componentes-principales": "Ginostema, hoja de loto, té verde, flor buddleja y ruibarbo"}, "recommendations": ["Adultos que buscan una bebida detox natural", "Personas enfocadas en bienestar digestivo", "Usuarios con hábitos saludables", "Combinable con suplementos Tianshi en cápsulas o tabletas"]}');
+INSERT INTO public.product_translation VALUES ('345487f3-9aa9-406a-bdc6-4b70b8ed5927', '1a7e52dd-f62c-417d-a519-ee64c930105c', '1a72f508-ad31-471b-a8af-002582213656', 'Te Reductor de Peso', 'Té herbal con 7 hierbas naturales que apoya el control de peso, la digestión y rutinas de bienestar diario.', 'El Té Reductor de Peso de Tianshi es una infusión elaborada con siete hierbas seleccionadas: hoja de loto, semilla de cassia, risoma de alisma, té oolong, té kuding, raíz de ruibarbo y cáscara de mandarina. Esta combinación reúne ingredientes conocidos por su uso tradicional en procesos digestivos, equilibrio metabólico y control de peso.
+
+Su fórmula está pensada para complementar estilos de vida saludables, apoyando la digestión, la eliminación natural de líquidos retenidos y el manejo de grasas y carbohidratos dentro de una rutina equilibrada.
+
+Consumido de manera constante junto con hábitos adecuados, puede ser un excelente aliado para quienes desean sentirse más ligeros y mejorar su bienestar diario.', 'Mantener un peso equilibrado y una buena digestión puede ser un desafío cuando el ritmo diario, el estrés y los hábitos alimenticios cambian constantemente. Por ello, muchas personas buscan alternativas naturales que acompañen sus objetivos de bienestar.
+
+El Té Reductor de Peso, también conocido como Té Milenario, combina hierbas tradicionales utilizadas por generaciones para complementar rutinas saludables, apoyar el metabolismo y favorecer una sensación de ligereza.', '["Contribuye al metabolismo natural del organismo", "Apoya rutinas orientadas al control de peso", "Favorece la digestión y el tránsito intestinal", "Ayuda a la eliminación natural de líquidos retenidos", "Aporta antioxidantes naturales", "Complementa hábitos saludables diarios"]', '["Programas de reducción de peso", "Rutinas de bienestar digestivo", "Planes de alimentación equilibrada", "Estilos de vida activos"]', '["Colocar 1 sobre en una taza con agua caliente", "Dejar reposar durante 3 minutos", "Consumir tibio o caliente", "Tomar de 1 a 2 sobres al día según preferencia"]', '["Personas sensibles a sus componentes podrían presentar reacciones alérgicas", "En caso de embarazo o lactancia, consultar con un especialista", "Recomendado para mayores de 18 años", "Conservar en lugar fresco y seco a temperatura ambiente"]', '["Adultos que buscan complementar el control de peso", "Personas enfocadas en bienestar digestivo", "Usuarios con hábitos saludables", "Combinable con suplementos Tianshi en cápsulas o tabletas"]', '{"marca": "Tianshi", "contenido": "40 bolsitas x 1.5g", "presentacion": "Sobre filtrantes", "tipo-de-producto": "Infusión herbal funcional", "componentes-principales": "Hoja de loto, semilla de cassia, alisma, té oolong, té kuding, ruibarbo y cáscara de mandarina"}', 'Comprar ahora', 'Te Reductor de Peso | Tiens Peru', 'Té herbal con 7 hierbas naturales que apoya el control de peso, la digestión y rutinas de bienestar diario.', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/te-reductor-de-peso/main.webp', 'https://youtu.be/aJdiOGCGjW0?si=xk0Vpr13zV5_Gf5t', '{"usage": ["Colocar 1 sobre en una taza con agua caliente", "Dejar reposar durante 3 minutos", "Consumir tibio o caliente", "Tomar de 1 a 2 sobres al día según preferencia"], "benefits": ["Contribuye al metabolismo natural del organismo", "Apoya rutinas orientadas al control de peso", "Favorece la digestión y el tránsito intestinal", "Ayuda a la eliminación natural de líquidos retenidos", "Aporta antioxidantes naturales", "Complementa hábitos saludables diarios"], "applications": ["Programas de reducción de peso", "Rutinas de bienestar digestivo", "Planes de alimentación equilibrada", "Estilos de vida activos"], "restrictions": ["Personas sensibles a sus componentes podrían presentar reacciones alérgicas", "En caso de embarazo o lactancia, consultar con un especialista", "Recomendado para mayores de 18 años", "Conservar en lugar fresco y seco a temperatura ambiente"], "technicalInfo": {"marca": "Tianshi", "contenido": "40 bolsitas x 1.5g", "presentacion": "Sobre filtrantes", "tipo-de-producto": "Infusión herbal funcional", "componentes-principales": "Hoja de loto, semilla de cassia, alisma, té oolong, té kuding, ruibarbo y cáscara de mandarina"}, "recommendations": ["Adultos que buscan complementar el control de peso", "Personas enfocadas en bienestar digestivo", "Usuarios con hábitos saludables", "Combinable con suplementos Tianshi en cápsulas o tabletas"]}');
+INSERT INTO public.product_translation VALUES ('faf542c5-6b34-4317-aea6-c3b971b511da', '46799374-8528-485b-b527-8e0ce5469f9c', '1a72f508-ad31-471b-a8af-002582213656', 'Tiens Fe Folic', 'Suplemento con hierro y ácido fólico que apoya la formación de glóbulos rojos, energía diaria y bienestar integral.', 'Tiens Fe Folic es un suplemento formulado con hierro (fumarato ferroso) y ácido fólico (vitamina B9), dos nutrientes fundamentales para funciones esenciales del organismo. El hierro participa en la formación de hemoglobina, ayudando al transporte de oxígeno en la sangre, mientras que el ácido fólico interviene en la formación celular y en diversos procesos metabólicos.
+
+Su composición está pensada para acompañar etapas donde el cuerpo requiere mayor soporte nutricional, como crecimiento, actividad intensa o necesidades específicas del día a día.
+
+Consumido como parte de una rutina equilibrada, puede ser un aliado importante para quienes buscan mantener vitalidad, adecuado aporte nutricional y bienestar general.', 'En distintas etapas de la vida, el organismo necesita nutrientes esenciales que apoyen la energía, el desarrollo y el equilibrio general. Factores como alimentación insuficiente, alta demanda física o etapas especiales pueden aumentar ciertos requerimientos nutricionales.
+
+Tiens Fe Folic combina hierro y ácido fólico en una fórmula diseñada para complementar la nutrición diaria, apoyando procesos clave relacionados con la sangre, el crecimiento celular y el bienestar general.', '["Contribuye a la formación de glóbulos rojos", "Apoya la síntesis normal de hemoglobina", "Favorece el transporte de oxígeno en el organismo", "Complementa procesos de crecimiento y desarrollo", "Apoya la formación celular y tejidos nuevos", "Contribuye al bienestar general y energía diaria"]', '["Rutinas de bienestar general", "Etapas de crecimiento y desarrollo", "Programas nutricionales supervisados", "Etapas especiales con requerimientos aumentados"]', '["De 7 a 17 años: 1 tableta diaria", "Adultos: de 1 a 2 tabletas diarias", "Embarazadas: según indicación profesional", "Consumir con agua y preferentemente con alimentos"]', '["No apto para menores de 7 años", "No exceder la dosis recomendada", "Suspender el uso ante cualquier reacción desfavorable", "No combinar con productos similares sin orientación profesional"]', '["Adultos que buscan complementar su nutrición diaria", "Personas con rutinas exigentes", "Jóvenes mayores de 7 años según indicación", "Puede combinarse con calcio y zinc en horarios separados"]', '{"marca": "Tianshi", "contenido": "120 tabletas x 0.25g", "presentacion": "Tabletas", "tipo-de-producto": "Suplemento alimenticio", "ingredientes-principales": "Hierro (fumarato ferroso) y ácido fólico (Vitamina B9)"}', 'Comprar ahora', 'Tiens Fe Folic | Tiens Peru', 'Suplemento con hierro y ácido fólico que apoya la formación de glóbulos rojos, energía diaria y bienestar integral.', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/tiens-fe-folic/main.webp', 'https://youtu.be/JzevqUVeQUo?si=2a79D5qxckTgiz4I', '{"usage": ["De 7 a 17 años: 1 tableta diaria", "Adultos: de 1 a 2 tabletas diarias", "Embarazadas: según indicación profesional", "Consumir con agua y preferentemente con alimentos"], "benefits": ["Contribuye a la formación de glóbulos rojos", "Apoya la síntesis normal de hemoglobina", "Favorece el transporte de oxígeno en el organismo", "Complementa procesos de crecimiento y desarrollo", "Apoya la formación celular y tejidos nuevos", "Contribuye al bienestar general y energía diaria"], "applications": ["Rutinas de bienestar general", "Etapas de crecimiento y desarrollo", "Programas nutricionales supervisados", "Etapas especiales con requerimientos aumentados"], "restrictions": ["No apto para menores de 7 años", "No exceder la dosis recomendada", "Suspender el uso ante cualquier reacción desfavorable", "No combinar con productos similares sin orientación profesional"], "technicalInfo": {"marca": "Tianshi", "contenido": "120 tabletas x 0.25g", "presentacion": "Tabletas", "tipo-de-producto": "Suplemento alimenticio", "ingredientes-principales": "Hierro (fumarato ferroso) y ácido fólico (Vitamina B9)"}, "recommendations": ["Adultos que buscan complementar su nutrición diaria", "Personas con rutinas exigentes", "Jóvenes mayores de 7 años según indicación", "Puede combinarse con calcio y zinc en horarios separados"]}');
+INSERT INTO public.product_translation VALUES ('31c21d63-ea70-411f-b28e-9ceeabaa462c', '5fb9a952-281a-4ab1-b185-1e4578037ce5', '1a72f508-ad31-471b-a8af-002582213656', 'Viokal', 'Suplemento con calcio y nutrientes que apoya huesos, dientes y bienestar diario, ideal para complementar tu nutrición.', 'Viokal es un suplemento nutricional formulado para complementar el aporte de calcio y otros nutrientes esenciales relacionados con la salud de huesos, dientes y funciones corporales importantes. Su composición incluye una mezcla en polvo a base de leche descremada, hueso de vaca, vitaminas y minerales.
+
+El calcio es un mineral fundamental en el organismo, ya que participa en la estructura ósea, la función muscular, la transmisión nerviosa y otros procesos fisiológicos esenciales. Por ello, mantener niveles adecuados resulta importante en distintas etapas de la vida.
+
+Consumido dentro de una alimentación equilibrada, Viokal puede ser un aliado para quienes buscan fortalecer su nutrición diaria y apoyar el bienestar general.', 'Con el paso del tiempo, el organismo necesita un adecuado aporte de calcio y minerales para mantener huesos fuertes y una buena calidad de vida. Factores como edad, alimentación insuficiente o alta demanda física pueden influir en estos requerimientos.
+
+Viokal ha sido desarrollado como un suplemento nutritivo pensado para complementar la alimentación diaria, apoyando la salud ósea y el bienestar integral.', '["Contribuye al mantenimiento de huesos fuertes", "Apoya la salud de dientes y encías", "Favorece funciones musculares normales", "Participa en procesos de transmisión nerviosa", "Complementa el bienestar general del organismo", "Ayuda a cubrir requerimientos diarios de calcio"]', '["Programas de nutrición ósea", "Adultos con requerimientos aumentados de calcio", "Personas activas físicamente", "Alimentación complementaria balanceada"]', '["Disolver 1 sachet en agua tibia", "Mezclar hasta integrar completamente", "Consumir una vez al día", "Mantener uso constante según rutina personal"]', '["No exceder la dosis diaria recomendada", "Suspender el uso ante cualquier reacción desfavorable", "Consultar con un especialista si presenta condiciones médicas previas", "Conservar en lugar fresco y seco"]', '["Adultos que buscan complementar su aporte de calcio", "Personas enfocadas en salud ósea", "Usuarios con rutinas activas", "Puede combinarse con Total Flex según recomendación profesional"]', '{"marca": "Tianshi", "contenido": "10 sachets x 10 g", "presentacion": "Sachets", "certificaciones": "Ganador del Premio de Oro a Categoría Principal en la 106ª Exposición Internacional Panamá-Pacífico (2021)", "reconocimientos": "Producto reconocido por su enfoque nutricional orientado al calcio", "tipo-de-producto": "Suplemento nutricional en polvo", "componentes-principales": "Leche descremada, hueso de vaca, vitaminas y minerales"}', 'Comprar ahora', 'Viokal | Tiens Peru', 'Suplemento con calcio y nutrientes que apoya huesos, dientes y bienestar diario, ideal para complementar tu nutrición.', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/viokal/main.webp', 'https://youtu.be/QmGbYkRhF0E?si=_jVQLVX1rmKsV4xD', '{"usage": ["Disolver 1 sachet en agua tibia", "Mezclar hasta integrar completamente", "Consumir una vez al día", "Mantener uso constante según rutina personal"], "benefits": ["Contribuye al mantenimiento de huesos fuertes", "Apoya la salud de dientes y encías", "Favorece funciones musculares normales", "Participa en procesos de transmisión nerviosa", "Complementa el bienestar general del organismo", "Ayuda a cubrir requerimientos diarios de calcio"], "applications": ["Programas de nutrición ósea", "Adultos con requerimientos aumentados de calcio", "Personas activas físicamente", "Alimentación complementaria balanceada"], "restrictions": ["No exceder la dosis diaria recomendada", "Suspender el uso ante cualquier reacción desfavorable", "Consultar con un especialista si presenta condiciones médicas previas", "Conservar en lugar fresco y seco"], "technicalInfo": {"marca": "Tianshi", "contenido": "10 sachets x 10 g", "presentacion": "Sachets", "certificaciones": "Ganador del Premio de Oro a Categoría Principal en la 106ª Exposición Internacional Panamá-Pacífico (2021)", "reconocimientos": "Producto reconocido por su enfoque nutricional orientado al calcio", "tipo-de-producto": "Suplemento nutricional en polvo", "componentes-principales": "Leche descremada, hueso de vaca, vitaminas y minerales"}, "recommendations": ["Adultos que buscan complementar su aporte de calcio", "Personas enfocadas en salud ósea", "Usuarios con rutinas activas", "Puede combinarse con Total Flex según recomendación profesional"]}');
+INSERT INTO public.product_translation VALUES ('3a8dabde-2cd0-4e07-98fc-c89ed2b7020a', '42f040f5-1e6a-457d-bab8-046578155f6f', '1a72f508-ad31-471b-a8af-002582213656', 'Tiens Colágeno Forte + Gingseng', 'Colágeno líquido con ginseng que apoya piel, articulaciones, bienestar diario y rutinas activas.', 'Colágeno Forte + Ginseng es un suplemento en sachets líquidos formulado con péptidos de colágeno de pescado, extracto de ginseng, miel Manuka y zanahoria morada. Esta combinación reúne ingredientes reconocidos por su aporte dentro de programas orientados a la salud de la piel, soporte musculoesquelético y vitalidad diaria.
+
+El colágeno es una proteína estructural clave en diversos tejidos del cuerpo. Su adecuado soporte puede ser importante para mantener piel firme, articulaciones saludables y acompañar rutinas activas.
+
+Gracias a su formato práctico y de fácil consumo, puede integrarse cómodamente en la rutina diaria como complemento de una alimentación balanceada y un estilo de vida saludable.', 'Con el paso del tiempo, el cuerpo reduce de forma natural la producción de colágeno, una proteína esencial presente en la piel, articulaciones, tendones y tejidos conectivos. Esto puede reflejarse en cambios visibles, menor elasticidad o necesidad de mayor soporte físico.
+
+Colágeno Forte + Ginseng de Tianshi combina ingredientes funcionales pensados para complementar rutinas enfocadas en belleza, movilidad y bienestar integral.', '["Apoya la salud y apariencia de la piel", "Complementa rutinas de envejecimiento saludable", "Favorece el bienestar de articulaciones, músculos y huesos", "Contribuye a rutinas deportivas y recuperación física", "Aporta sensación de saciedad como apoyo nutricional", "Formato práctico para consumo diario"]', '["Rutinas de belleza y cuidado personal", "Programas de movilidad y bienestar articular", "Estilos de vida activos", "Planes nutricionales balanceados"]', '["Tomar 1 sachet al día directamente al abrirlo", "También puede mezclarse con agua si se prefiere", "Para uso intensivo, consumir 2 sachets al día según necesidad", "Mantener consumo constante dentro de una rutina saludable"]', '["No exceder la ingesta diaria recomendada", "No utilizar como sustituto de una dieta variada", "Mantener una alimentación equilibrada y estilo de vida saludable", "Conservar en lugar fresco y seco"]', '["Adultos que buscan cuidado integral de la piel", "Personas con rutinas activas o deportivas", "Usuarios enfocados en bienestar articular y muscular", "Puede combinarse con Tiens Energy y Total Flex"]', '{"marca": "Tianshi", "contenido": "15 sachets x 15 ml", "tecnologia": "Desarrollado con tecnología doble NUTRI™, orientada a combinar nutrientes solubles en agua y aceite junto con extractos vegetales e ingredientes funcionales.", "presentacion": "Sachets", "tipo-de-producto": "Suplemento líquido funcional", "ingredientes-principales": "Péptidos de colágeno de pescado, ginseng, miel Manuka y zanahoria morada"}', 'Comprar ahora', 'Tiens Colágeno Forte + Gingseng | Tiens Peru', 'Colágeno líquido con ginseng que apoya piel, articulaciones, bienestar diario y rutinas activas.', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/tiens-colageno-forte-gingseng/main.webp', 'https://youtu.be/tTwWootASTE?si=fwk4NLXUlA1CkwbN', '{"usage": ["Tomar 1 sachet al día directamente al abrirlo", "También puede mezclarse con agua si se prefiere", "Para uso intensivo, consumir 2 sachets al día según necesidad", "Mantener consumo constante dentro de una rutina saludable"], "benefits": ["Apoya la salud y apariencia de la piel", "Complementa rutinas de envejecimiento saludable", "Favorece el bienestar de articulaciones, músculos y huesos", "Contribuye a rutinas deportivas y recuperación física", "Aporta sensación de saciedad como apoyo nutricional", "Formato práctico para consumo diario"], "applications": ["Rutinas de belleza y cuidado personal", "Programas de movilidad y bienestar articular", "Estilos de vida activos", "Planes nutricionales balanceados"], "restrictions": ["No exceder la ingesta diaria recomendada", "No utilizar como sustituto de una dieta variada", "Mantener una alimentación equilibrada y estilo de vida saludable", "Conservar en lugar fresco y seco"], "technicalInfo": {"marca": "Tianshi", "contenido": "15 sachets x 15 ml", "tecnologia": "Desarrollado con tecnología doble NUTRI™, orientada a combinar nutrientes solubles en agua y aceite junto con extractos vegetales e ingredientes funcionales.", "presentacion": "Sachets", "tipo-de-producto": "Suplemento líquido funcional", "ingredientes-principales": "Péptidos de colágeno de pescado, ginseng, miel Manuka y zanahoria morada"}, "recommendations": ["Adultos que buscan cuidado integral de la piel", "Personas con rutinas activas o deportivas", "Usuarios enfocados en bienestar articular y muscular", "Puede combinarse con Tiens Energy y Total Flex"]}');
+INSERT INTO public.product_translation VALUES ('b5a00b11-2e84-4086-bfe0-10b36a5f9b59', 'fb8b39c4-2e22-42a7-92d4-d65bf20616a8', '1a72f508-ad31-471b-a8af-002582213656', 'Pasta Dental Herbal Orecare', 'Pasta dental herbal con extractos naturales que ayuda a proteger dientes, encías y mantener un aliento fresco.', 'La Pasta Dental Herbal Orecare es un producto de cuidado personal formulado con extractos naturales de plantas tradicionales como sarcandra, madreselva y crisantemo indicum. Estos ingredientes son reconocidos por su uso tradicional dentro del cuidado e higiene personal.
+
+Su fórmula cremosa y de textura suave ha sido desarrollada para ayudar en la limpieza bucal diaria, contribuyendo a mantener dientes limpios, encías cuidadas y una sensación prolongada de frescura.
+
+Gracias a su sabor a menta y su composición herbal, puede integrarse fácilmente en la rutina diaria de higiene oral, ofreciendo una experiencia agradable de cepillado.', 'La salud bucal diaria es clave para mantener una sonrisa saludable y una sensación de frescura constante. Una buena rutina de higiene ayuda a proteger dientes y encías frente a factores cotidianos como restos de alimentos, placa bacteriana y mal aliento.
+
+La Pasta Dental Herbal Orecare combina extractos botánicos tradicionales con una fórmula pensada para complementar el cuidado bucal diario de toda la familia.', '["Ayuda a mantener dientes y encías limpios", "Contribuye a reducir acumulación de placa y sarro", "Brinda sensación de aliento fresco", "Fórmula cremosa y agradable al cepillado", "Complementa rutinas de higiene oral diaria", "Elaborada con extractos herbales tradicionales"]', '["Rutinas diarias de higiene bucal", "Limpieza después de cada comida", "Cuidado preventivo de dientes y encías", "Uso familiar según indicación de edad"]', '["Colocar aproximadamente un tercio de la superficie del cepillo dental con pasta", "Cepillar dientes y encías suavemente", "Realizar el cepillado durante el tiempo recomendado", "Utilizar al menos 3 veces al día, preferentemente después de cada comida"]', '["Suspender el uso si presenta alguna reacción desfavorable", "Recomendable a partir de los 2 años de edad", "Mantener en lugar fresco y ventilado", "Evitar ingerir el producto"]', '["Adultos y niños mayores de 2 años", "Personas que buscan higiene bucal diaria", "Usuarios que prefieren fórmulas herbales", "Rutinas enfocadas en frescura y limpieza oral"]', '{"marca": "Orecare", "contenido": "135gr", "diferencial": "Fórmula desarrollada con extractos botánicos tradicionales y sabor a menta para una experiencia fresca y agradable.", "presentacion": "Tubo", "tipo-de-producto": "Pasta dental herbal", "ingredientes-principales": "Sarcandra, madreselva y crisantemo indicum"}', 'Comprar ahora', 'Pasta Dental Herbal Orecare | Tiens Peru', 'Pasta dental herbal con extractos naturales que ayuda a proteger dientes, encías y mantener un aliento fresco.', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/pasta-dental-herbal-orecare/main.webp', 'https://youtu.be/Lx2ArBmeshI?si=ehToTgno_bch5Icm', '{"usage": ["Colocar aproximadamente un tercio de la superficie del cepillo dental con pasta", "Cepillar dientes y encías suavemente", "Realizar el cepillado durante el tiempo recomendado", "Utilizar al menos 3 veces al día, preferentemente después de cada comida"], "benefits": ["Ayuda a mantener dientes y encías limpios", "Contribuye a reducir acumulación de placa y sarro", "Brinda sensación de aliento fresco", "Fórmula cremosa y agradable al cepillado", "Complementa rutinas de higiene oral diaria", "Elaborada con extractos herbales tradicionales"], "applications": ["Rutinas diarias de higiene bucal", "Limpieza después de cada comida", "Cuidado preventivo de dientes y encías", "Uso familiar según indicación de edad"], "restrictions": ["Suspender el uso si presenta alguna reacción desfavorable", "Recomendable a partir de los 2 años de edad", "Mantener en lugar fresco y ventilado", "Evitar ingerir el producto"], "technicalInfo": {"marca": "Orecare", "contenido": "135gr", "diferencial": "Fórmula desarrollada con extractos botánicos tradicionales y sabor a menta para una experiencia fresca y agradable.", "presentacion": "Tubo", "tipo-de-producto": "Pasta dental herbal", "ingredientes-principales": "Sarcandra, madreselva y crisantemo indicum"}, "recommendations": ["Adultos y niños mayores de 2 años", "Personas que buscan higiene bucal diaria", "Usuarios que prefieren fórmulas herbales", "Rutinas enfocadas en frescura y limpieza oral"]}');
+INSERT INTO public.product_translation VALUES ('9df2bb43-d45b-464a-ab4d-cec321821ecd', '5a40dd29-0941-41ee-93ce-322465088e14', '1a72f508-ad31-471b-a8af-002582213656', 'Tiens Cordycafe', 'Café funcional con Cordyceps que apoya energía, concentración y bienestar diario con gran sabor y aroma.', 'Tiens Cordycafe es una bebida instantánea elaborada con café de calidad y Cordyceps sinensis, un hongo tradicionalmente valorado por su uso dentro de rutinas orientadas a energía, resistencia y equilibrio general.
+
+Su fórmula combina extracto de café en polvo, crema no láctea, leche desnatada en polvo y Cordyceps, ofreciendo una experiencia agradable de sabor y aroma junto con un perfil funcional pensado para el día a día.
+
+El Cordyceps es conocido por su relación con procesos energéticos del organismo, mientras que el café aporta el impulso característico para comenzar la jornada. Juntos forman una excelente alternativa para quienes buscan rendimiento físico y mental con practicidad.', 'Comenzar el día con energía y enfoque es una prioridad para muchas personas. Sin embargo, el ritmo diario, el cansancio acumulado y la alta exigencia física o mental pueden afectar el rendimiento cotidiano.
+
+Tiens Cordycafe combina café instantáneo con Cordyceps, creando una bebida funcional pensada para acompañar mañanas activas, apoyar la vitalidad y complementar una rutina de bienestar.', '["Ayuda a reducir sensación de fatiga", "Favorece energía y vitalidad diaria", "Contribuye a mejorar la concentración", "Apoya el rendimiento físico y mental", "Complementa el metabolismo y circulación", "Aporta antioxidantes naturales"]', '["Rutinas matutinas", "Jornadas laborales intensas", "Actividad física moderada", "Estudio y concentración"]', '["Verter 1 sachet en una taza", "Agregar 150 ml de agua caliente (70° a 80°C)", "Mezclar hasta disolver completamente", "Consumir preferentemente por la mañana"]', '["No recomendado para personas sensibles a alguno de sus ingredientes", "No usar como sustituto de una dieta equilibrada", "No recomendado para niños, lactantes o embarazadas", "Conservar en lugar fresco y seco"]', '["Adultos que buscan energía diaria", "Personas con jornadas exigentes", "Usuarios que desean mejorar enfoque y rendimiento", "Combinable con suplementos Tiens según rutina personal"]', '{"marca": "Tianshi", "contenido": "12 sachets x 15 g", "diferencial": "Combina café instantáneo con Cordyceps para unir sabor, practicidad y soporte funcional en una sola bebida.", "presentacion": "Sachets", "tipo-de-producto": "Bebida funcional instantánea", "ingredientes-principales": "Extracto de café, Cordyceps sinensis, crema no láctea y leche desnatada en polvo"}', 'Comprar ahora', 'Tiens Cordycafe | Tiens Peru', 'Café funcional con Cordyceps que apoya energía, concentración y bienestar diario con gran sabor y aroma.', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/tiens-cordycafe/main.webp', 'https://youtu.be/h95ne-YMH-4?si=RlacxrU6ssj8lPoS', '{"usage": ["Verter 1 sachet en una taza", "Agregar 150 ml de agua caliente (70° a 80°C)", "Mezclar hasta disolver completamente", "Consumir preferentemente por la mañana"], "benefits": ["Ayuda a reducir sensación de fatiga", "Favorece energía y vitalidad diaria", "Contribuye a mejorar la concentración", "Apoya el rendimiento físico y mental", "Complementa el metabolismo y circulación", "Aporta antioxidantes naturales"], "applications": ["Rutinas matutinas", "Jornadas laborales intensas", "Actividad física moderada", "Estudio y concentración"], "restrictions": ["No recomendado para personas sensibles a alguno de sus ingredientes", "No usar como sustituto de una dieta equilibrada", "No recomendado para niños, lactantes o embarazadas", "Conservar en lugar fresco y seco"], "technicalInfo": {"marca": "Tianshi", "contenido": "12 sachets x 15 g", "diferencial": "Combina café instantáneo con Cordyceps para unir sabor, practicidad y soporte funcional en una sola bebida.", "presentacion": "Sachets", "tipo-de-producto": "Bebida funcional instantánea", "ingredientes-principales": "Extracto de café, Cordyceps sinensis, crema no láctea y leche desnatada en polvo"}, "recommendations": ["Adultos que buscan energía diaria", "Personas con jornadas exigentes", "Usuarios que desean mejorar enfoque y rendimiento", "Combinable con suplementos Tiens según rutina personal"]}');
+INSERT INTO public.product_translation VALUES ('5b191d8a-e097-4df9-a506-3474b157c8de', '060ddb56-30dc-4114-9701-cae7309fd9ab', '1a72f508-ad31-471b-a8af-002582213656', 'Green Bubble Cleanser', 'Gel limpiador facial espumante que exfolia, limpia e hidrata, dejando la piel fresca y lista para tu rutina skincare.', 'Green Bubble Cleanser es un limpiador facial en gel con tecnología espumante inspirado en fórmulas coreanas de cuidado de la piel. Su textura cambia rápidamente de fase líquida a espuma, ayudando a remover impurezas mientras brinda una sensación refrescante y agradable.
+
+Su fórmula combina ingredientes funcionales como extracto de semilla de cacao, extracto de micelio de hongos y extracto hidrolizado de placenta de centeno, seleccionados para complementar la limpieza facial y apoyar el aspecto saludable de la piel.
+
+Además de limpiar, ayuda a preparar el rostro para la siguiente etapa de la rutina de belleza, permitiendo una mejor experiencia con tónicos, sérums o hidratantes posteriores.', 'La piel del rostro está expuesta diariamente a contaminación, grasa, maquillaje, sudor y factores ambientales que pueden afectar su apariencia y frescura. Por eso, una limpieza adecuada es el primer paso de cualquier rutina de cuidado facial.
+
+Green Bubble Cleanser ha sido desarrollado para ofrecer una experiencia innovadora de limpieza, transformándose de gel a espuma en segundos y dejando el rostro listo para continuar con el skincare habitual.', '["Limpia profundamente el rostro", "Ayuda a remover impurezas y residuos diarios", "Efecto exfoliante suave", "Aporta sensación fresca e inmediata", "Contribuye a una piel con apariencia revitalizada", "Deja el rostro listo para la rutina skincare"]', '["Rutina facial diaria de mañana o noche", "Limpieza posterior al maquillaje", "Preparación previa al uso de sérums o cremas", "Rutinas enfocadas en frescura y cuidado facial"]', '["Aplicar de 2 a 3 ml sobre el rostro limpio y seco o ligeramente húmedo", "Distribuir suavemente evitando el área de los ojos", "Esperar unos segundos hasta alcanzar el efecto espumante", "Masajear suavemente el rostro", "Enjuagar con abundante agua hasta retirar todo residuo"]', '["No usar en caso de hipersensibilidad a alguno de sus componentes", "Evitar aplicar sobre heridas abiertas o lesiones cutáneas", "No usar sobre afecciones dermatológicas activas sin orientación profesional", "Evitar contacto directo con los ojos", "Suspender uso ante irritación o reacción desfavorable"]', '["Hombres y mujeres que buscan limpieza facial diaria", "• Personas con rutina skincare", "• Usuarios que desean sensación fresca y piel limpia", "• Combinable con productos de belleza Tiens como Cilvaris Gel Rejuvenecedor y bloqueador SPF50"]', '{"marca": "Viewtale", "contenido": "80ml", "presentacion": "Envase individual", "tipo-de-producto": "Limpiador facial en gel espumante", "ingredientes-principales": "Extracto de semilla de cacao, micelio de hongos y placenta hidrolizada de centeno"}', 'Comprar ahora', 'Green Bubble Cleanser | Tiens Peru', 'Gel limpiador facial espumante que exfolia, limpia e hidrata, dejando la piel fresca y lista para tu rutina skincare.', 'https://tiens-assets-staging.nyc3.cdn.digitaloceanspaces.com/products/pe/green-bubble-cleanser/main.webp', NULL, '{"usage": ["Aplicar de 2 a 3 ml sobre el rostro limpio y seco o ligeramente húmedo", "Distribuir suavemente evitando el área de los ojos", "Esperar unos segundos hasta alcanzar el efecto espumante", "Masajear suavemente el rostro", "Enjuagar con abundante agua hasta retirar todo residuo"], "benefits": ["Limpia profundamente el rostro", "Ayuda a remover impurezas y residuos diarios", "Efecto exfoliante suave", "Aporta sensación fresca e inmediata", "Contribuye a una piel con apariencia revitalizada", "Deja el rostro listo para la rutina skincare"], "applications": ["Rutina facial diaria de mañana o noche", "Limpieza posterior al maquillaje", "Preparación previa al uso de sérums o cremas", "Rutinas enfocadas en frescura y cuidado facial"], "restrictions": ["No usar en caso de hipersensibilidad a alguno de sus componentes", "Evitar aplicar sobre heridas abiertas o lesiones cutáneas", "No usar sobre afecciones dermatológicas activas sin orientación profesional", "Evitar contacto directo con los ojos", "Suspender uso ante irritación o reacción desfavorable"], "technicalInfo": {"marca": "Viewtale", "contenido": "80ml", "presentacion": "Envase individual", "tipo-de-producto": "Limpiador facial en gel espumante", "ingredientes-principales": "Extracto de semilla de cacao, micelio de hongos y placenta hidrolizada de centeno"}, "recommendations": ["Hombres y mujeres que buscan limpieza facial diaria", "• Personas con rutina skincare", "• Usuarios que desean sensación fresca y piel limpia", "• Combinable con productos de belleza Tiens como Cilvaris Gel Rejuvenecedor y bloqueador SPF50"]}');
+
+
+--
+-- TOC entry 4808 (class 2606 OID 31234)
+-- Name: app_user_country_access app_user_country_access_pkey; Type: CONSTRAINT; Schema: public; Owner: tiens_app
+--
+
+ALTER TABLE ONLY public.app_user_country_access
+    ADD CONSTRAINT app_user_country_access_pkey PRIMARY KEY (user_id, country_id);
+
+
+--
+-- TOC entry 4766 (class 2606 OID 30950)
+-- Name: app_user app_user_email_key; Type: CONSTRAINT; Schema: public; Owner: tiens_app
+--
+
+ALTER TABLE ONLY public.app_user
+    ADD CONSTRAINT app_user_email_key UNIQUE (email);
+
+
+--
+-- TOC entry 4768 (class 2606 OID 30948)
+-- Name: app_user app_user_pkey; Type: CONSTRAINT; Schema: public; Owner: tiens_app
+--
+
+ALTER TABLE ONLY public.app_user
+    ADD CONSTRAINT app_user_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4793 (class 2606 OID 31032)
+-- Name: category category_pkey; Type: CONSTRAINT; Schema: public; Owner: tiens_app
+--
+
+ALTER TABLE ONLY public.category
+    ADD CONSTRAINT category_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4795 (class 2606 OID 31034)
+-- Name: category category_slug_key; Type: CONSTRAINT; Schema: public; Owner: tiens_app
+--
+
+ALTER TABLE ONLY public.category
+    ADD CONSTRAINT category_slug_key UNIQUE (slug);
+
+
+--
+-- TOC entry 4758 (class 2606 OID 30927)
+-- Name: country country_code_key; Type: CONSTRAINT; Schema: public; Owner: tiens_app
+--
+
+ALTER TABLE ONLY public.country
+    ADD CONSTRAINT country_code_key UNIQUE (code);
+
+
+--
+-- TOC entry 4760 (class 2606 OID 30925)
+-- Name: country country_pkey; Type: CONSTRAINT; Schema: public; Owner: tiens_app
+--
+
+ALTER TABLE ONLY public.country
+    ADD CONSTRAINT country_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4803 (class 2606 OID 31078)
+-- Name: event event_pkey; Type: CONSTRAINT; Schema: public; Owner: tiens_app
+--
+
+ALTER TABLE ONLY public.event
+    ADD CONSTRAINT event_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4762 (class 2606 OID 30936)
+-- Name: language language_code_key; Type: CONSTRAINT; Schema: public; Owner: tiens_app
+--
+
+ALTER TABLE ONLY public.language
+    ADD CONSTRAINT language_code_key UNIQUE (code);
+
+
+--
+-- TOC entry 4764 (class 2606 OID 30934)
+-- Name: language language_pkey; Type: CONSTRAINT; Schema: public; Owner: tiens_app
+--
+
+ALTER TABLE ONLY public.language
+    ADD CONSTRAINT language_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4797 (class 2606 OID 31039)
+-- Name: product_category product_category_pkey; Type: CONSTRAINT; Schema: public; Owner: tiens_app
+--
+
+ALTER TABLE ONLY public.product_category
+    ADD CONSTRAINT product_category_pkey PRIMARY KEY (product_country_id, category_id);
+
+
+--
+-- TOC entry 4777 (class 2606 OID 30975)
+-- Name: product_country product_country_pkey; Type: CONSTRAINT; Schema: public; Owner: tiens_app
+--
+
+ALTER TABLE ONLY public.product_country
+    ADD CONSTRAINT product_country_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4791 (class 2606 OID 31020)
+-- Name: product_image product_image_pkey; Type: CONSTRAINT; Schema: public; Owner: tiens_app
+--
+
+ALTER TABLE ONLY public.product_image
+    ADD CONSTRAINT product_image_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4770 (class 2606 OID 30959)
+-- Name: product product_pkey; Type: CONSTRAINT; Schema: public; Owner: tiens_app
+--
+
+ALTER TABLE ONLY public.product
+    ADD CONSTRAINT product_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4799 (class 2606 OID 31057)
+-- Name: product_relation product_relation_pkey; Type: CONSTRAINT; Schema: public; Owner: tiens_app
+--
+
+ALTER TABLE ONLY public.product_relation
+    ADD CONSTRAINT product_relation_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4772 (class 2606 OID 30961)
+-- Name: product product_sku_key; Type: CONSTRAINT; Schema: public; Owner: tiens_app
+--
+
+ALTER TABLE ONLY public.product
+    ADD CONSTRAINT product_sku_key UNIQUE (sku);
+
+
+--
+-- TOC entry 4785 (class 2606 OID 30997)
+-- Name: product_translation product_translation_pkey; Type: CONSTRAINT; Schema: public; Owner: tiens_app
+--
+
+ALTER TABLE ONLY public.product_translation
+    ADD CONSTRAINT product_translation_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4779 (class 2606 OID 30977)
+-- Name: product_country uq_product_country; Type: CONSTRAINT; Schema: public; Owner: tiens_app
+--
+
+ALTER TABLE ONLY public.product_country
+    ADD CONSTRAINT uq_product_country UNIQUE (product_id, country_id);
+
+
+--
+-- TOC entry 4781 (class 2606 OID 30979)
+-- Name: product_country uq_product_country_slug; Type: CONSTRAINT; Schema: public; Owner: tiens_app
+--
+
+ALTER TABLE ONLY public.product_country
+    ADD CONSTRAINT uq_product_country_slug UNIQUE (country_id, slug);
+
+
+--
+-- TOC entry 4801 (class 2606 OID 31059)
+-- Name: product_relation uq_product_relation; Type: CONSTRAINT; Schema: public; Owner: tiens_app
+--
+
+ALTER TABLE ONLY public.product_relation
+    ADD CONSTRAINT uq_product_relation UNIQUE (product_country_id, related_product_country_id, relation_type);
+
+
+--
+-- TOC entry 4787 (class 2606 OID 30999)
+-- Name: product_translation uq_translation; Type: CONSTRAINT; Schema: public; Owner: tiens_app
+--
+
+ALTER TABLE ONLY public.product_translation
+    ADD CONSTRAINT uq_translation UNIQUE (product_country_id, language_id);
+
+
+--
+-- TOC entry 4804 (class 1259 OID 31087)
+-- Name: idx_event_country; Type: INDEX; Schema: public; Owner: tiens_app
+--
+
+CREATE INDEX idx_event_country ON public.event USING btree (country_code);
+
+
+--
+-- TOC entry 4805 (class 1259 OID 31086)
+-- Name: idx_event_product; Type: INDEX; Schema: public; Owner: tiens_app
+--
+
+CREATE INDEX idx_event_product ON public.event USING btree (product_id);
+
+
+--
+-- TOC entry 4806 (class 1259 OID 31088)
+-- Name: idx_event_type; Type: INDEX; Schema: public; Owner: tiens_app
+--
+
+CREATE INDEX idx_event_type ON public.event USING btree (event_type);
+
+
+--
+-- TOC entry 4788 (class 1259 OID 31084)
+-- Name: idx_image_pc; Type: INDEX; Schema: public; Owner: tiens_app
+--
+
+CREATE INDEX idx_image_pc ON public.product_image USING btree (product_country_id);
+
+
+--
+-- TOC entry 4789 (class 1259 OID 31085)
+-- Name: idx_image_primary; Type: INDEX; Schema: public; Owner: tiens_app
+--
+
+CREATE INDEX idx_image_primary ON public.product_image USING btree (is_primary);
+
+
+--
+-- TOC entry 4773 (class 1259 OID 31081)
+-- Name: idx_product_country_active; Type: INDEX; Schema: public; Owner: tiens_app
+--
+
+CREATE INDEX idx_product_country_active ON public.product_country USING btree (is_active);
+
+
+--
+-- TOC entry 4774 (class 1259 OID 31080)
+-- Name: idx_product_country_country; Type: INDEX; Schema: public; Owner: tiens_app
+--
+
+CREATE INDEX idx_product_country_country ON public.product_country USING btree (country_id);
+
+
+--
+-- TOC entry 4775 (class 1259 OID 31079)
+-- Name: idx_product_country_product; Type: INDEX; Schema: public; Owner: tiens_app
+--
+
+CREATE INDEX idx_product_country_product ON public.product_country USING btree (product_id);
+
+
+--
+-- TOC entry 4782 (class 1259 OID 31083)
+-- Name: idx_translation_lang; Type: INDEX; Schema: public; Owner: tiens_app
+--
+
+CREATE INDEX idx_translation_lang ON public.product_translation USING btree (language_id);
+
+
+--
+-- TOC entry 4783 (class 1259 OID 31082)
+-- Name: idx_translation_pc; Type: INDEX; Schema: public; Owner: tiens_app
+--
+
+CREATE INDEX idx_translation_pc ON public.product_translation USING btree (product_country_id);
+
+
+--
+-- TOC entry 4818 (class 2606 OID 31240)
+-- Name: app_user_country_access fk_auca_country; Type: FK CONSTRAINT; Schema: public; Owner: tiens_app
+--
+
+ALTER TABLE ONLY public.app_user_country_access
+    ADD CONSTRAINT fk_auca_country FOREIGN KEY (country_id) REFERENCES public.country(id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4819 (class 2606 OID 31235)
+-- Name: app_user_country_access fk_auca_user; Type: FK CONSTRAINT; Schema: public; Owner: tiens_app
+--
+
+ALTER TABLE ONLY public.app_user_country_access
+    ADD CONSTRAINT fk_auca_user FOREIGN KEY (user_id) REFERENCES public.app_user(id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4814 (class 2606 OID 31045)
+-- Name: product_category fk_pc_category; Type: FK CONSTRAINT; Schema: public; Owner: tiens_app
+--
+
+ALTER TABLE ONLY public.product_category
+    ADD CONSTRAINT fk_pc_category FOREIGN KEY (category_id) REFERENCES public.category(id) ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 4815 (class 2606 OID 31040)
+-- Name: product_category fk_pc_product_country; Type: FK CONSTRAINT; Schema: public; Owner: tiens_app
+--
+
+ALTER TABLE ONLY public.product_category
+    ADD CONSTRAINT fk_pc_product_country FOREIGN KEY (product_country_id) REFERENCES public.product_country(id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4813 (class 2606 OID 31021)
+-- Name: product_image fk_pi_product_country; Type: FK CONSTRAINT; Schema: public; Owner: tiens_app
+--
+
+ALTER TABLE ONLY public.product_image
+    ADD CONSTRAINT fk_pi_product_country FOREIGN KEY (product_country_id) REFERENCES public.product_country(id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4816 (class 2606 OID 31060)
+-- Name: product_relation fk_pr_product; Type: FK CONSTRAINT; Schema: public; Owner: tiens_app
+--
+
+ALTER TABLE ONLY public.product_relation
+    ADD CONSTRAINT fk_pr_product FOREIGN KEY (product_country_id) REFERENCES public.product_country(id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4817 (class 2606 OID 31065)
+-- Name: product_relation fk_pr_related; Type: FK CONSTRAINT; Schema: public; Owner: tiens_app
+--
+
+ALTER TABLE ONLY public.product_relation
+    ADD CONSTRAINT fk_pr_related FOREIGN KEY (related_product_country_id) REFERENCES public.product_country(id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4809 (class 2606 OID 30985)
+-- Name: product_country fk_product_country_country; Type: FK CONSTRAINT; Schema: public; Owner: tiens_app
+--
+
+ALTER TABLE ONLY public.product_country
+    ADD CONSTRAINT fk_product_country_country FOREIGN KEY (country_id) REFERENCES public.country(id) ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 4810 (class 2606 OID 30980)
+-- Name: product_country fk_product_country_product; Type: FK CONSTRAINT; Schema: public; Owner: tiens_app
+--
+
+ALTER TABLE ONLY public.product_country
+    ADD CONSTRAINT fk_product_country_product FOREIGN KEY (product_id) REFERENCES public.product(id) ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 4811 (class 2606 OID 31005)
+-- Name: product_translation fk_pt_language; Type: FK CONSTRAINT; Schema: public; Owner: tiens_app
+--
+
+ALTER TABLE ONLY public.product_translation
+    ADD CONSTRAINT fk_pt_language FOREIGN KEY (language_id) REFERENCES public.language(id) ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 4812 (class 2606 OID 31000)
+-- Name: product_translation fk_pt_product_country; Type: FK CONSTRAINT; Schema: public; Owner: tiens_app
+--
+
+ALTER TABLE ONLY public.product_translation
+    ADD CONSTRAINT fk_pt_product_country FOREIGN KEY (product_country_id) REFERENCES public.product_country(id) ON DELETE CASCADE;
+
+
+-- Completed on 2026-05-31 08:33:50
+
+--
+-- PostgreSQL database dump complete
+--
+

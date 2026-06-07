@@ -36,7 +36,7 @@ export function ProductLightbox({ image, productName, onClose }: ProductLightbox
         onClick={(e) => e.stopPropagation()}
       >
         <img
-          src={`/${image}`}
+          src={image}
           alt={productName}
           style={{
             width: '100%',
