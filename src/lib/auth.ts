@@ -14,6 +14,12 @@ export const AUTH_SESSION_COOKIE_NAME = "tiens_auth_session";
 export const AUTH_SESSION_TTL_SECONDS = 60 * 60 * 8;
 
 const AUTH_SESSION_SECRET = process.env.AUTH_SESSION_SECRET ?? "tiens-catalog-local-session-secret";
+
+// Fail fast in production when the secret is not configured.
+if (process.env.NODE_ENV === "production" && AUTH_SESSION_SECRET === "tiens-catalog-local-session-secret") {
+  // Throwing here prevents the app from starting with an insecure fallback secret.
+  throw new Error("AUTH_SESSION_SECRET is not set in production. Set the AUTH_SESSION_SECRET environment variable in your hosting provider.");
+}
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
 
