@@ -13,7 +13,18 @@ function buildDefaultAdminRedirect(request: NextRequest): NextResponse {
 }
 
 export async function middleware(request: NextRequest): Promise<NextResponse> {
-  const session = await readAuthSession(request.cookies.get(AUTH_SESSION_COOKIE_NAME)?.value);
+  const token = request.cookies.get(AUTH_SESSION_COOKIE_NAME)?.value;
+  try {
+    console.log('[MIDDLEWARE] url=', request.nextUrl.pathname, 'cookiePresent=', Boolean(token), 'cookieLen=', token ? token.length : 0);
+  } catch (e) {
+    // ignore logging errors
+  }
+  const session = await readAuthSession(token);
+  try {
+    console.log('[MIDDLEWARE] parsedSession=', session ? { userId: session.userId, role: session.role, exp: session.exp } : null);
+  } catch (e) {
+    // ignore logging errors
+  }
 
   if (request.nextUrl.pathname === "/admin/login") {
     if (session) {
