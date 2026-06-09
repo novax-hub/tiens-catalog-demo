@@ -159,15 +159,6 @@ export async function parseAuthSession(token: string | null | undefined): Promis
   }
 
   const isValid = await verifyPayload(encodedPayload, signature);
-  console.log(
-    "[AUTH]",
-    {
-      hasToken: !!token,
-      payloadLength: encodedPayload.length,
-      signatureLength: signature.length,
-      isValid,
-    }
-  );
   if (!isValid) {
     return null;
   }

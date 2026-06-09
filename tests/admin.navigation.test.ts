@@ -16,23 +16,19 @@ test("admin nav items match role visibility", () => {
     "Productos",
     "Productos por País",
     "Usuarios",
-    "Cerrar sesión",
   ]);
 
   assert.deepEqual(getAdminNavItems("ADMIN").map((item) => item.label), [
     "Dashboard",
     "Productos por País",
     "Usuarios",
-    "Cerrar sesión",
   ]);
 
   assert.deepEqual(getAdminNavItems("EDITOR").map((item) => item.label), [
     "Productos por País",
-    "Cerrar sesión",
   ]);
 
   assert.deepEqual(getAdminNavItems("ASSISTANT").map((item) => item.label), [
     "Productos por País",
-    "Cerrar sesión",
   ]);
 });

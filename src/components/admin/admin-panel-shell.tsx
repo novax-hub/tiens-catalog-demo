@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { AUTH_SESSION_COOKIE_NAME, readAuthSession } from "@/lib/auth";
 import { getAdminNavItems } from "@/modules/admin/admin-navigation.ts";
+import { logoutAction } from "@/actions/auth-actions";
 
 type AdminPanelShellProps = {
   children: React.ReactNode;
@@ -100,9 +101,31 @@ export async function AdminPanelShell({ children }: AdminPanelShellProps) {
             borderTop: "1px solid var(--color-neutral-300)",
             color: "var(--color-neutral-600)",
             fontSize: "0.875rem",
+            display: "flex",
+            flexDirection: "column",
+            gap: 8,
           }}
         >
           <div>Guía visual basada en el frontend actual.</div>
+
+          <form action={logoutAction}>
+            <button
+              type="submit"
+              style={{
+                marginTop: "4px",
+                padding: "8px 12px",
+                borderRadius: 8,
+                background: "transparent",
+                border: "1px solid var(--color-neutral-300)",
+                color: "var(--color-neutral-700)",
+                fontWeight: 600,
+                cursor: "pointer",
+              }}
+            >
+              Cerrar sesión
+            </button>
+          </form>
+
           <div>© {year} Tiens Catalog</div>
         </div>
       </aside>

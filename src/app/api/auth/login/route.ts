@@ -104,12 +104,19 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   });
 
   const response = NextResponse.redirect(new URL(redirectTo, request.url));
+  // Determine if the cookie should be marked Secure. In production behind HTTPS (Vercel)
+  // `x-forwarded-proto` is `https` or the `VERCEL` env var is set. For local `next start`
+  // (which runs in production mode but without HTTPS), prefer to not mark secure so
+  // cookies work over HTTP during local testing.
+  const forwardedProto = request.headers.get("x-forwarded-proto");
+  const isSecure = forwardedProto === "https" || process.env.VERCEL === "1";
+
   response.cookies.set({
     name: AUTH_SESSION_COOKIE_NAME,
     value: token,
     httpOnly: true,
     sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
+    secure: isSecure,
     path: "/",
     maxAge: AUTH_SESSION_TTL_SECONDS,
   });
