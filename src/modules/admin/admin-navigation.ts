@@ -26,6 +26,6 @@ export function getAdminNavItems(role: AuthRole | undefined): AdminNavItem[] {
     ...(role && (role === "SUPER_ADMIN" || role === "ADMIN")
       ? [{ href: "/admin/users", label: "Usuarios", meta: "Gestión de acceso" }]
       : []),
-    { href: "/api/auth/logout", label: "Cerrar sesión", meta: "Salir del panel" },
+    { href: "#", label: "Cerrar sesión", meta: "Salir del panel" },
   ];
 }
